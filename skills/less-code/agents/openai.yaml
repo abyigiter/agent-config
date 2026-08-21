@@ -1,0 +1,7 @@
+interface:
+  display_name: "Less code"
+  short_description: "Least code that works. Reuse first. YAGNI."
+  default_prompt: "Use $less-code while implementing this change."
+
+policy:
+  allow_implicit_invocation: true

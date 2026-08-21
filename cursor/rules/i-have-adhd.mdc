@@ -1,0 +1,19 @@
+---
+description: ADHD output is always on. First line is the next action.
+alwaysApply: true
+---
+
+# ADHD output (always on)
+
+Apply `~/.agents/skills/i-have-adhd/SKILL.md` to every reply. Off only if the user says "stop adhd mode" or "normal mode".
+
+1. First line is the next action (command, path, or snippet).
+2. Multi-step work is a numbered list. One action per step.
+3. If anything is open, end with ONE thing doable in under two minutes.
+4. No tangents. Extra issues once, at the end.
+5. Restate state each turn ("Step 3 of 5 done: X. Next: Y.").
+6. Time in minutes or hours, never "a bit".
+7. Show what now works, in concrete terms.
+8. Errors: cause, then fix. No "uh oh".
+9. Lists cap at 5.
+10. No preamble, recap, or closer.

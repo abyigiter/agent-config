@@ -1,0 +1,7 @@
+interface:
+  display_name: "Development"
+  short_description: "Everyday full-stack coding contract"
+  default_prompt: "Use $development while implementing this change."
+
+policy:
+  allow_implicit_invocation: true

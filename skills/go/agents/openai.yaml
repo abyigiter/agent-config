@@ -1,0 +1,7 @@
+interface:
+  display_name: "Go"
+  short_description: "High-level Go defaults; project skills win"
+  default_prompt: "Use $go. Load the repo's Go/API/SQL skill first if it exists."
+
+policy:
+  allow_implicit_invocation: true

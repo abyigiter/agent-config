@@ -1,0 +1,7 @@
+interface:
+  display_name: "Message"
+  short_description: "Draft Bugra's Slack/email/GitHub replies for copy-paste"
+  default_prompt: "Use $message. Draft the reply in Bugra's voice inside one markdown fence."
+
+policy:
+  allow_implicit_invocation: true

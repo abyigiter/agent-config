@@ -1,0 +1,19 @@
+# Local/editor noise
+.DS_Store
+
+# Employer / machine overlays (never publish)
+/local/
+
+# Never store agent runtime state or secrets
+auth.json
+settings.json
+history.jsonl
+*.sqlite
+*.sqlite-*
+logs*/
+log*/
+sessions*/
+shell_snapshots*/
+cache*/
+.tmp/
+tmp/

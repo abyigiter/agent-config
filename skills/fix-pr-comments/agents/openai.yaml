@@ -1,0 +1,7 @@
+interface:
+  display_name: "Fix PR Comments"
+  short_description: "Address review comments as the author"
+  default_prompt: "Use $fix-pr-comments to check every teammate and bot review on PR #N and fix the easy nits and test gaps."
+
+policy:
+  allow_implicit_invocation: true

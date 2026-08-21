@@ -1,0 +1,7 @@
+interface:
+  display_name: "I Have ADHD"
+  short_description: "Always-on action-first ADHD output"
+  default_prompt: "Use $i-have-adhd as the default output shape for every reply."
+
+policy:
+  allow_implicit_invocation: true

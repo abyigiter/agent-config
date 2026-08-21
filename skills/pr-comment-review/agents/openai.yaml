@@ -1,0 +1,7 @@
+interface:
+  display_name: "PR Comment Review"
+  short_description: "Review, re-review, and comment on PRs"
+  default_prompt: "Use $pr-comment-review to review or re-review PR #N and post inline comments."
+
+policy:
+  allow_implicit_invocation: true

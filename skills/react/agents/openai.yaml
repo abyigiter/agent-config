@@ -1,0 +1,7 @@
+interface:
+  display_name: "React"
+  short_description: "High-level React/TS defaults; project skills win"
+  default_prompt: "Use $react. Load the repo's webapps/frontend skill first if it exists."
+
+policy:
+  allow_implicit_invocation: true

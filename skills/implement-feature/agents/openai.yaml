@@ -1,0 +1,7 @@
+interface:
+  display_name: "Implement Feature"
+  short_description: "Plan then ship a full-stack feature"
+  default_prompt: "Use $implement-feature to plan, then implement this feature. Inventory sibling repos if the feature needs them."
+
+policy:
+  allow_implicit_invocation: true
