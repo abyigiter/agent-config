@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_dir="$(cd "$(dirname "$0")" && pwd)"
-mkdir -p "$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.agents/skills" "$HOME/.cursor/rules"
+mkdir -p "$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.agents/skills" "$HOME/.cursor/rules" "$HOME/.hermes/skills"
 
 if [[ -f "$repo_dir/local/AGENTS.append.md" ]]; then
   combined="$HOME/.agents/AGENTS.combined.md"
@@ -22,7 +22,7 @@ ln -sf "$repo_dir/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 link_skill() {
   local src="$1"
   local name="$2"
-  for dest in "$HOME/.agents/skills/$name" "$HOME/.claude/skills/$name" "$HOME/.codex/skills/$name"; do
+  for dest in "$HOME/.agents/skills/$name" "$HOME/.claude/skills/$name" "$HOME/.codex/skills/$name" "$HOME/.hermes/skills/$name"; do
     if [[ -e "$dest" && ! -L "$dest" ]]; then
       rm -rf "$dest"
     fi
