@@ -64,3 +64,14 @@ if [[ -d "$repo_dir/local/skills" ]]; then
 fi
 
 ln -sfn "$repo_dir/cursor/rules/i-have-adhd.mdc" "$HOME/.cursor/rules/i-have-adhd.mdc"
+
+# ── Hermes Agent ─────────────────────────────────────────────────────
+if command -v hermes &>/dev/null; then
+  mkdir -p "$HOME/.hermes"
+  ln -sf "$repo_dir/hermes/config.yaml" "$HOME/.hermes/config.yaml"
+  if [[ ! -f "$HOME/.hermes/.env" ]]; then
+    cp "$repo_dir/hermes/.env.template" "$HOME/.hermes/.env"
+    chmod 600 "$HOME/.hermes/.env"
+    echo "  Created ~/.hermes/.env — edit it with your API keys: $EDITOR ~/.hermes/.env"
+  fi
+fi
