@@ -17,3 +17,7 @@ shell_snapshots*/
 cache*/
 .tmp/
 tmp/
+
+# Hermes .env (API keys — never commit)
+.env
+hermes/.env
