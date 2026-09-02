@@ -103,7 +103,7 @@ When I paste a Slack thread, identify the speakers and treat me (**Bugra Yigiter
 
 - Prefer existing design-system components and app patterns over new UI primitives.
 - Don't build landing pages unless explicitly asked; build the actual usable screen/tool.
-- For non-trivial UI changes, exercise the changed flow in a browser. Typecheck is not behavior verification.
+- For non-trivial UI changes, exercise the changed flow with `agent-browser`. Typecheck is not behavior verification.
 - Keep UI copy concise and user-facing; don't explain implementation details in the interface.
 
 ## Go
@@ -137,7 +137,7 @@ When I paste a Slack thread, identify the speakers and treat me (**Bugra Yigiter
 
 - A task isn't done until it's verified. Run the project's lint, type-check, and tests before declaring success — and if they're behind a Makefile target, use that.
 - No fake verification. Never imply checks passed unless they actually ran and passed.
-- Frontend changes: actually exercise the feature in the browser. Type-check passing ≠ feature working. Check the golden path and at least one edge case.
+- Frontend changes: actually exercise the feature in the browser via `agent-browser`. Type-check passing ≠ feature working. Check the golden path and at least one edge case.
 c- Browser verification is optional for frontend route/table display-only changes (copy, date/number formatting, existing column rendering). Lint, typecheck, and focused unit tests are enough unless the change affects interaction, navigation, layout, auth, data fetching, or state.
 - DB migration / migration-tooling changes (Go-typed migrations, `goose`/`util-goose` refactors, init-time registrations): run the affected service's reset-and-migrate target against a fresh local DB (e.g. `make db-reset-test`) and confirm the applied version list matches the on-disk migration dir. Per-binary check if multiple services share migration tooling — a shared registry can quietly leak one service's migrations into another's binary, and the bug only shows up at runtime against a fresh DB. "goose exited 0" is not enough.
 - If you can't verify (no env, no test infra, no UI access), say so plainly. Don't claim success on unverified work.
@@ -166,7 +166,7 @@ c- Browser verification is optional for frontend route/table display-only change
 - Load only the relevant skill for the task, not the whole skills directory.
 - In repos, use the repo's canonical skill location (often `.agents/skills/`). A `.claude/skills/` path may be only a symlink.
 - Personal `i-have-adhd` is always on (see Output above). Canonical file: `~/.agents/skills/i-have-adhd/SKILL.md`.
-- Personal `development` lives in `~/.agents/skills/development`. Everyday coding: full-stack default, one reviewable PR, no deferred leftovers, scoped Make, no Playwright or CI polling unless asked.
+- Personal `development` lives in `~/.agents/skills/development`. Everyday coding: full-stack default, one reviewable PR, no deferred leftovers, scoped Make, no Playwright or CI polling unless asked. Browser checks use `agent-browser`.
 - Personal `implement-feature` lives in `~/.agents/skills/implement-feature`. Big features: plan mode first, cross-repo inventory. Coding defaults come from `development`.
 - Personal `fix-pr-comments` lives in `~/.agents/skills/fix-pr-comments`. When asked to check review on a PR: every teammate and bot comment, always fix easy nits and easy test gaps, do not defer small work.
 - Personal `pr-comment-review` lives in `~/.agents/skills/pr-comment-review`. Post a review on a GitHub PR, including self-review and re-review.
@@ -180,7 +180,8 @@ c- Browser verification is optional for frontend route/table display-only change
 - Personal `vercel-react-best-practices` lives in `~/.agents/skills/vercel-react-best-practices`. Use when writing or reviewing React performance. Source: [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills).
 - Personal `web-design-guidelines` lives in `~/.agents/skills/web-design-guidelines`. Use for UI/accessibility reviews. Source: [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills).
 - Personal `performance` lives in `~/.agents/skills/performance`. Use for load-time and Core Web Vitals work. Source: [addyosmani/web-quality-skills](https://github.com/addyosmani/web-quality-skills).
-- Personal `webapp-testing` lives in `~/.agents/skills/webapp-testing`. Use for Playwright checks against a local webapp. Source: [anthropics/skills](https://github.com/anthropics/skills).
+- Personal `agent-browser` lives in `~/.agents/skills/agent-browser`. Use for browser automation, UI verification, screenshots, and form fills. Prefer over Playwright / `webapp-testing`. Source: [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser).
+- Personal `webapp-testing` lives in `~/.agents/skills/webapp-testing`. Playwright fallback only. Source: [anthropics/skills](https://github.com/anthropics/skills).
 - Personal `writing-design-proposals` lives in `~/.agents/skills/writing-design-proposals`. Use when writing or revising an engineering design proposal, RFC, or architecture doc. Source: [klaidliadon/claude-plugins](https://github.com/klaidliadon/claude-plugins/tree/writing-design-proposals).
 - Personal `handoff` lives in `~/.agents/skills/handoff`. Use when compacting this conversation into a doc for another agent. Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff).
 - Personal `less-code` lives in `~/.agents/skills/less-code`. Use while writing or fixing code: YAGNI, reuse, shortest working diff. Source: [ponytail](https://github.com/DietrichGebert/ponytail/blob/main/.agents/rules/ponytail.md).

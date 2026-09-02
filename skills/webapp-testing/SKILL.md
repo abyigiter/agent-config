@@ -1,12 +1,14 @@
 ---
 name: webapp-testing
-description: Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
+description: Playwright fallback for local webapp testing. Prefer agent-browser for browser automation, UI verification, screenshots, and form fills. Use this skill only if agent-browser is unavailable or the user asked for Playwright.
 license: Complete terms in LICENSE.txt
 ---
 
 # Web Application Testing
 
-To test local web applications, write native Python Playwright scripts.
+Prefer `agent-browser` (`~/.agents/skills/agent-browser`). Use this Playwright skill only if agent-browser is missing or he asked for Playwright.
+
+To test local web applications with Playwright, write native Python Playwright scripts.
 
 **Helper Scripts Available**:
 - `scripts/with_server.py` - Manages server lifecycle (supports multiple servers)

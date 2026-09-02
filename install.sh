@@ -31,6 +31,7 @@ link_skill() {
 }
 
 skills=(
+  agent-browser
   brainstorming
   development
   figma-code-connect
