@@ -5,8 +5,8 @@ description: >-
   asks to implement a feature, build a new flow, ship an epic, or do a
   cross-cutting change that likely touches API, schema, and UI. Starts in plan
   mode, does not split a reviewable 20-30 file change into many PRs, does not
-  defer work the user did not defer, skips browser/Playwright and CI polling
-  unless asked. Do not use for one-line fixes, PR review, or comment posting.
+  defer work the user did not defer, skips Playwright/CI polling unless asked,
+  and uses agent-browser for browser checks. Do not use for one-line fixes, PR review, or comment posting.
 ---
 
 # Implement feature
@@ -30,7 +30,7 @@ While coding, also follow `development` (`~/.agents/skills/development/SKILL.md`
 | Repos | Inventory sibling repos the feature needs. Implement every piece. |
 | PR shape | One PR per repo. 20-30 files in one PR is fine if it is one story and reviewable. |
 | Deferral | None, unless he asked. No "follow-up PR" for tests, UI, or the other repo. |
-| Browser / Playwright | Off unless he asked. |
+| Browser | Off unless he asked. When he did, use `agent-browser`, not Playwright. |
 | Checks | Fast, scoped Make targets. No full-monorepo, no lint-full. |
 | CI | Do not poll. He will look and tell you. |
 

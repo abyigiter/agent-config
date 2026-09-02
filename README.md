@@ -73,7 +73,8 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `vercel-react-best-practices` | Vercel React/Next performance |
 | `web-design-guidelines` | UI/a11y review |
 | `performance` | Core Web Vitals |
-| `webapp-testing` | Playwright against a local app |
+| `agent-browser` | Browser CLI. Prefer over Playwright |
+| `webapp-testing` | Playwright fallback |
 | `figma-code-connect` | `.figma.ts` templates. Not `.figma.tsx`. |
 
 ## Local overlay

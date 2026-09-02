@@ -5,7 +5,7 @@ description: >-
   whenever the user asks to write code, fix a bug, change a file, or land a
   small-to-medium change. Full-stack unless told otherwise, one reviewable PR,
   no deferred leftovers, scoped Make checks, no Playwright or CI polling unless
-  asked. Do not use for big-feature planning (implement-feature), PR review
+  asked. Browser checks use agent-browser. Do not use for big-feature planning (implement-feature), PR review
   comments (pr-comment-review), or addressing review feedback (fix-pr-comments).
 ---
 
@@ -29,7 +29,7 @@ For a **new large feature**, also load `implement-feature` (plan mode, then the 
 | Stack | Full-stack. Schema + API + UI if the journey needs them. |
 | Scope | The whole slice. Do not defer tests, UI, or a required sibling repo. |
 | PR | One PR per repo. 20-30 files is fine if it is one story and reviewable. |
-| Browser / Playwright | Off unless he asked. |
+| Browser | Off unless he asked. When he did, use `agent-browser`, not Playwright. |
 | Checks | Fast, scoped Make. No lint-full, no repo-wide `go test ./...`. |
 | CI | Do not poll. Give the PR URL. He will say if it failed. |
 | Diff | Surgical. No opportunistic refactors. |
@@ -62,7 +62,7 @@ Use Make. Scope to what changed.
 
 Run the nearest package/app target (`make test`, `make lint`, `make typecheck`). Do not invent a parallel command if Make already wraps env and output paths.
 
-Never Playwright, `test-e2e`, browser MCP, or "open the app" unless he asked.
+Never Playwright, `test-e2e`, browser MCP, or "open the app" unless he asked. If he asked, use `agent-browser`.
 
 Never `gh pr checks` or merge-gate polling.
 

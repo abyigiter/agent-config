@@ -39,7 +39,7 @@ Also follow `development` (`~/.agents/skills/development/SKILL.md`) while coding
 
 - If a Makefile exists, use it.
 - Typecheck passing is not "the screen works". For interaction, navigation, layout, auth, fetching, or state: say if you did not exercise it in the browser.
-- Playwright / e2e / browser MCP: off unless he asked.
+- Playwright / e2e / browser MCP: off unless he asked. If he asked (or UI DoD requires a browser), use `agent-browser`.
 
 ## Do not put here
 
