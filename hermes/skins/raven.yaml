@@ -1,0 +1,75 @@
+name: raven
+description: "Dark theme with black backgrounds and vibrant yellow/gold accents"
+
+colors:
+  # Banner
+  banner_border: "#FFD700"
+  banner_title: "#FFD700"
+  banner_accent: "#FFC107"
+  banner_dim: "#9E9E9E"
+  banner_text: "#E0E0E0"
+
+  # UI
+  ui_accent: "#FFD700"
+  ui_label: "#FFC107"
+  ui_ok: "#4caf50"
+  ui_error: "#ef5350"
+  ui_warn: "#ffa726"
+
+  # Prompt & input
+  prompt: "#E0E0E0"
+  input_rule: "#FFD700"
+
+  # Response box
+  response_border: "#FFD700"
+  session_label: "#FFC107"
+  session_border: "#616161"
+
+  # Status & TUI
+  status_bar_bg: "#0D0D0D"
+  voice_status_bg: "#0D0D0D"
+  selection_bg: "#2A2A00"
+
+  # Completion menu
+  completion_menu_bg: "#0D0D0D"
+  completion_menu_current_bg: "#2A2A00"
+  completion_menu_meta_bg: "#0D0D0D"
+  completion_menu_meta_current_bg: "#2A2A00"
+
+spinner:
+  waiting_faces:
+    - "(✦)"
+    - "(⚡)"
+    - "(★)"
+  thinking_faces:
+    - "(✦)"
+    - "(⌁)"
+    - "(◈)"
+  thinking_verbs:
+    - "weaving"
+    - "sparking"
+    - "gathering"
+    - "illuminating"
+  wings:
+    - ["⟪✦", "✦⟫"]
+    - ["⟪⚡", "⚡⟫"]
+    - ["⟪★", "★⟫"]
+
+branding:
+  agent_name: "Raven Agent"
+  welcome: "Raven perches. Ask away."
+  goodbye: "Raven takes flight."
+  response_label: " ✦ Raven "
+  prompt_symbol: "✦"
+  help_header: "(✦) Commands"
+
+tool_prefix: "▏"
+
+tool_emojis:
+  terminal: "⚡"
+  web_search: "🔍"
+  read_file: "📄"
+  write_file: "✍"
+  patch: "🔧"
+  web_extract: "🕸"
+  vision_analyze: "👁"
