@@ -5,7 +5,6 @@
 - The current user message wins over all stored instructions.
 - Project or repo `AGENTS.md` wins over this home-level `AGENTS.md` for work inside that project.
 - Tool/system safety rules always win. Never bypass security, sandboxing, or secret-handling constraints.
-- The `--- project-doc ---` section applies only to the directory tree that owns it; don't apply home wiki rules inside nested repos.
 
 ## About me
 
@@ -26,7 +25,7 @@
 
 ## Output (ADHD, always on)
 
-Default for every reply in Cursor, Claude, and Codex. Load `~/.agents/skills/i-have-adhd/SKILL.md` when the full text is needed. Off only if I say "stop adhd mode" or "normal mode".
+Default for every reply in Cursor, Claude, and Codex. Off only if I say "stop adhd mode" or "normal mode".
 
 1. First line is the next action (command, path, or snippet). Not context.
 2. Multi-step work is a numbered list. One action per step.
@@ -75,7 +74,7 @@ Default for every reply in Cursor, Claude, and Codex. Load `~/.agents/skills/i-h
 
 ## Slack threads
 
-When I paste a Slack thread, identify the speakers and treat me (**Bugra Yigiter**) as the user. When I ask for a reply (Slack, email, GitHub comment I will paste), follow `~/.agents/skills/message/SKILL.md`.
+When I paste a Slack thread, identify the speakers and treat me (**Bugra Yigiter**) as the user. When I ask for a reply (Slack, email, or GitHub comment I will paste), follow `~/.agents/skills/message/SKILL.md`.
 
 ## Code Review
 
@@ -137,8 +136,8 @@ When I paste a Slack thread, identify the speakers and treat me (**Bugra Yigiter
 
 - A task isn't done until it's verified. Run the project's lint, type-check, and tests before declaring success — and if they're behind a Makefile target, use that.
 - No fake verification. Never imply checks passed unless they actually ran and passed.
-- Frontend changes: actually exercise the feature in the browser via `agent-browser`. Type-check passing ≠ feature working. Check the golden path and at least one edge case.
-c- Browser verification is optional for frontend route/table display-only changes (copy, date/number formatting, existing column rendering). Lint, typecheck, and focused unit tests are enough unless the change affects interaction, navigation, layout, auth, data fetching, or state.
+- Frontend changes: actually exercise the feature in the browser via `agent-browser`. Typecheck passing ≠ feature working. Check the golden path and at least one edge case.
+- Browser verification is optional for frontend route/table display-only changes (copy, date/number formatting, existing column rendering). Lint, typecheck, and focused unit tests are enough unless the change affects interaction, navigation, layout, auth, data fetching, or state.
 - DB migration / migration-tooling changes (Go-typed migrations, `goose`/`util-goose` refactors, init-time registrations): run the affected service's reset-and-migrate target against a fresh local DB (e.g. `make db-reset-test`) and confirm the applied version list matches the on-disk migration dir. Per-binary check if multiple services share migration tooling — a shared registry can quietly leak one service's migrations into another's binary, and the bug only shows up at runtime against a fresh DB. "goose exited 0" is not enough.
 - If you can't verify (no env, no test infra, no UI access), say so plainly. Don't claim success on unverified work.
 - "It compiles" and "tests pass" are not the same as "it does what was asked." Re-read the original request before signing off.
@@ -162,97 +161,6 @@ c- Browser verification is optional for frontend route/table display-only change
 
 ## Skills
 
-- Prefer project-local skills over global skills.
-- Load only the relevant skill for the task, not the whole skills directory.
-- In repos, use the repo's canonical skill location (often `.agents/skills/`). A `.claude/skills/` path may be only a symlink.
-- Personal `i-have-adhd` is always on (see Output above). Canonical file: `~/.agents/skills/i-have-adhd/SKILL.md`.
-- Personal `development` lives in `~/.agents/skills/development`. Everyday coding: full-stack default, one reviewable PR, no deferred leftovers, scoped Make, no Playwright or CI polling unless asked. Browser checks use `agent-browser`.
-- Personal `implement-feature` lives in `~/.agents/skills/implement-feature`. Big features: plan mode first, cross-repo inventory. Coding defaults come from `development`.
-- Personal `fix-pr-comments` lives in `~/.agents/skills/fix-pr-comments`. When asked to check review on a PR: every teammate and bot comment, always fix easy nits and easy test gaps, do not defer small work.
-- Personal `pr-comment-review` lives in `~/.agents/skills/pr-comment-review`. Post a review on a GitHub PR, including self-review and re-review.
-- Personal `message` lives in `~/.agents/skills/message`. Draft Slack, email, or GitHub replies he will paste: Slack is chat-typed lowercase, no em dash, talk up, always one markdown fence.
-- Personal `go` and `react` live in `~/.agents/skills/go` and `~/.agents/skills/react`. High-level only. Project tech skills always win.
-- Personal `figma-code-connect` lives in `~/.agents/skills/figma-code-connect`. Use when mapping Figma components to Code Connect `.figma.ts` templates. Source: [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide).
-- Personal `systematic-debugging` lives in `~/.agents/skills/systematic-debugging`. Use on bugs, test failures, or unexpected behavior before proposing fixes. Source: [obra/superpowers](https://github.com/obra/superpowers).
-- Personal `brainstorming` lives in `~/.agents/skills/brainstorming`. Use before creative work: clarify intent and get a design approved. Source: [obra/superpowers](https://github.com/obra/superpowers).
-- Personal `test-driven-development` lives in `~/.agents/skills/test-driven-development`. Use before implementation: failing test first. Source: [obra/superpowers](https://github.com/obra/superpowers).
-- Personal `find-skills` lives in `~/.agents/skills/find-skills`. Use when looking for an installable skill. Source: [vercel-labs/skills](https://github.com/vercel-labs/skills).
-- Personal `vercel-react-best-practices` lives in `~/.agents/skills/vercel-react-best-practices`. Use when writing or reviewing React performance. Source: [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills).
-- Personal `web-design-guidelines` lives in `~/.agents/skills/web-design-guidelines`. Use for UI/accessibility reviews. Source: [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills).
-- Personal `performance` lives in `~/.agents/skills/performance`. Use for load-time and Core Web Vitals work. Source: [addyosmani/web-quality-skills](https://github.com/addyosmani/web-quality-skills).
-- Personal `agent-browser` lives in `~/.agents/skills/agent-browser`. Use for browser automation, UI verification, screenshots, and form fills. Prefer over Playwright / `webapp-testing`. Source: [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser).
-- Personal `webapp-testing` lives in `~/.agents/skills/webapp-testing`. Playwright fallback only. Source: [anthropics/skills](https://github.com/anthropics/skills).
-- Personal `writing-design-proposals` lives in `~/.agents/skills/writing-design-proposals`. Use when writing or revising an engineering design proposal, RFC, or architecture doc. Source: [klaidliadon/claude-plugins](https://github.com/klaidliadon/claude-plugins/tree/writing-design-proposals).
-- Personal `handoff` lives in `~/.agents/skills/handoff`. Use when compacting this conversation into a doc for another agent. Source: [mattpocock/skills](https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff).
-- Personal `less-code` lives in `~/.agents/skills/less-code`. Use while writing or fixing code: YAGNI, reuse, shortest working diff. Source: [ponytail](https://github.com/DietrichGebert/ponytail/blob/main/.agents/rules/ponytail.md).
-
---- project-doc ---
-
-# Personal Knowledge Base
-
-This section applies only when working in `/Users/ayigiter` as a home-directory knowledge base, not inside nested repos.
-
-This home directory is a **personal knowledge base** built on the LLM Wiki pattern. It is designed to be opened in Obsidian so the wikilinks render and the graph view works.
-
-## Structure
-
-- `wiki/` — LLM-maintained knowledge base
-  - `index.md` — Categorized page catalog
-  - `log.md` — Append-only operation log
-  - Individual `.md` pages (sources, entities, concepts, comparisons, syntheses)
-- `raw/` — All source material. The LLM reads but never modifies these.
-  - `clips/` — Web articles, text excerpts, voice notes
-  - `pdfs/` — Reference documents
-  - `media/` — Screenshots, audio, video
-
-## Owner Context
-
-- **Role**: Full-stack engineer (React + Go)
-- **Domain**: Blockchain
-- **Active project**: set in the local overlay if needed
-- **Languages**: English and Turkish — sources come in both, write wiki pages in the source's language
-- **Wiki purpose**: Work reference — prioritize practical, actionable knowledge over theoretical deep-dives
-
-### Ingest priorities
-
-When deciding what deserves its own entity/concept page, weight these higher:
-
-- Smart contracts, consensus mechanisms, L1/L2, DeFi patterns, tokenomics
-- Go patterns (concurrency, performance, API design)
-- React architecture (state management, rendering, component patterns)
-- DevOps, infrastructure, deployment relevant to blockchain nodes/services
-
-## LLM Wiki
-
-A persistent, LLM-maintained knowledge base that compounds over time. Three layers:
-
-1. **Raw sources** (`raw/`) — immutable source documents. Read but never modify.
-2. **Wiki** (`wiki/`) — LLM-generated pages. The LLM owns this layer entirely.
-3. **Schema** (this section) — rules governing wiki behavior.
-
-### Skills
-
-- `/wiki-ingest` — Process a single source into the wiki (interactive)
-- `/wiki-query` — Answer a question from the wiki with citations
-- `/wiki-lint` — Health-check for broken links, orphans, contradictions, staleness
-- `/wiki-seed` — Bulk-ingest an entire directory into the wiki (non-interactive)
-
-### Page types
-
-All wiki pages have YAML frontmatter with a `type` field:
-
-- `source` — Summary of an ingested raw document
-- `entity` — Person, company, product, project
-- `concept` — Idea, pattern, methodology, domain term
-- `comparison` — Side-by-side analysis of 2+ things
-- `synthesis` — Cross-source insight connecting multiple pages
-
-### Rules
-
-- Wiki pages live in `wiki/` and use `[[wikilinks]]` for cross-references
-- Filenames match page titles exactly (sentence case, spaces)
-- Every wiki page must be listed in `wiki/index.md`
-- Every operation (ingest, query, lint, seed) gets logged in `wiki/log.md`
-- Source pages link to all entities/concepts they generated
-- Entity/concept pages link back to the sources they came from
-- Never duplicate existing pages — if a page exists, update it instead of creating a parallel one
+- Prefer project-local skills over global ones. Load only the skill that matches the task.
+- Canonical dir: `~/.agents/skills/` (Claude, Codex, and Cursor are symlinks).
+- ADHD output is always on via the Cursor rule. Off if I say "stop adhd mode" or "normal mode".

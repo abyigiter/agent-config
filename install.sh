@@ -64,7 +64,30 @@ if [[ -d "$repo_dir/local/skills" ]]; then
   done
 fi
 
-ln -sfn "$repo_dir/cursor/rules/i-have-adhd.mdc" "$HOME/.cursor/rules/i-have-adhd.mdc"
+# Keep Claude/Codex copies in lockstep with AGENTS.md for clones that have no local overlay.
+sync_agents_copy() {
+  local dest="$1"
+  cmp -s "$repo_dir/AGENTS.md" "$dest" && return 0
+  cp "$repo_dir/AGENTS.md" "$dest"
+}
+sync_agents_copy "$repo_dir/.claude/AGENTS.md"
+sync_agents_copy "$repo_dir/.codex/AGENTS.md"
+
+for f in "$repo_dir"/cursor/rules/*.mdc "$repo_dir"/local/cursor/rules/*.mdc(N); do
+  [[ -f "$f" ]] || continue
+  ln -sfn "$f" "$HOME/.cursor/rules/$(basename "$f")"
+done
+
+if [[ -d "$HOME/wiki" ]]; then
+  ln -sfn "$repo_dir/cursor/rules/wiki.mdc" "$HOME/wiki/AGENTS.md"
+fi
+
+# Plugin cache re-applies on update. Re-run install after a GitLab/Granola plugin bump.
+for f in "$HOME/.cursor/plugins/cache/cursor-public/gitlab/"*/rules/gitlab-workflow.mdc \
+         "$HOME/.cursor/plugins/cache/cursor-public/granola/"*/rules/check-meeting-context.mdc; do
+  [[ -f "$f" ]] || continue
+  perl -i -pe 's/^alwaysApply: true$/alwaysApply: false/' "$f"
+done
 
 # ── Hermes Agent ─────────────────────────────────────────────────────
 if command -v hermes &>/dev/null; then

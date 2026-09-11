@@ -1,5 +1,6 @@
 ---
 name: webapp-testing
+disable-model-invocation: true
 description: Playwright fallback for local webapp testing. Prefer agent-browser for browser automation, UI verification, screenshots, and form fills. Use this skill only if agent-browser is unavailable or the user asked for Playwright.
 license: Complete terms in LICENSE.txt
 ---

@@ -24,7 +24,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 |---|---|
 | `AGENTS.md` | House rules. One file. No vibes doc. |
 | `skills/` | How to code, review, debug, and draft Slack |
-| `cursor/rules/` | Always-on Cursor rules (ADHD output) |
+| `cursor/rules/` | Cursor rules. ADHD is always on. Wiki schema is globbed to `wiki/**` and `raw/**`. |
 | `install.sh` | The only setup step |
 
 `CLAUDE.md` just says `@AGENTS.md`. Same brain, three products.
@@ -99,7 +99,8 @@ No `local/` folder? Clone stays generic. That is the point.
 ~/.agents/skills/<skill>
 ~/.claude/skills/<skill>
 ~/.codex/skills/<skill>
-~/.cursor/rules/i-have-adhd.mdc
+~/.cursor/rules/*.mdc
+~/wiki/AGENTS.md              (if ~/wiki exists; wiki schema, not always-on)
 ```
 
 ## Not in this repo

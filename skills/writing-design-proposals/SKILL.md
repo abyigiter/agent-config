@@ -1,5 +1,6 @@
 ---
 name: writing-design-proposals
+disable-model-invocation: true
 description: Use when writing, drafting, or revising an engineering design proposal, technical design doc, RFC, architecture proposal, or decision proposal — and when making one read clearly for a human. Covers the decision-ready argument, source-authority discipline (facts vs recommendations), the layered design + plan/spec structure for larger proposals, and the human-readability standard (simplify don't compress, discursive prose, show-don't-name, format-by-shape). Also for folding review feedback into the canonical proposal.
 ---
 
