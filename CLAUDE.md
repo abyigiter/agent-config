@@ -1,1 +1,1 @@
-@AGENTS.md
+@SOUL.md

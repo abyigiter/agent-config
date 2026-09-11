@@ -18,6 +18,9 @@ fi
 
 ln -sf "$repo_dir/CLAUDE.md" "$HOME/CLAUDE.md"
 ln -sf "$repo_dir/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+ln -sfn "$repo_dir/SOUL.md" "$HOME/.claude/SOUL.md"
+ln -sfn "$repo_dir/SOUL.md" "$HOME/.codex/SOUL.md"
+ln -sfn "$repo_dir/SOUL.md" "$HOME/.hermes/SOUL.md"
 
 link_skill() {
   local src="$1"
@@ -90,8 +93,9 @@ for f in "$HOME/.cursor/plugins/cache/cursor-public/gitlab/"*/rules/gitlab-workf
 done
 
 # ── Hermes Agent ─────────────────────────────────────────────────────
+mkdir -p "$HOME/.hermes"
+
 if command -v hermes &>/dev/null; then
-  mkdir -p "$HOME/.hermes"
   ln -sf "$repo_dir/hermes/config.yaml" "$HOME/.hermes/config.yaml"
 
   # Link custom skins
