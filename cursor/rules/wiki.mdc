@@ -1,0 +1,73 @@
+---
+description: LLM wiki schema. Use when ingesting, querying, linting, or editing wiki/ or raw/.
+globs: wiki/**,raw/**
+alwaysApply: false
+---
+
+# Personal Knowledge Base
+
+Apply only when editing `wiki/` or `raw/`, or when the workspace is the home wiki. Do not apply inside nested repos (omsx, bpn-api, and so on).
+
+This is a personal knowledge base built on the LLM Wiki pattern. Open it in Obsidian so wikilinks and the graph view work.
+
+## Structure
+
+- `wiki/` — LLM-maintained knowledge base
+  - `index.md` — Categorized page catalog
+  - `log.md` — Append-only operation log
+  - Individual `.md` pages (sources, entities, concepts, comparisons, syntheses)
+- `raw/` — All source material. The LLM reads but never modifies these.
+  - `clips/` — Web articles, text excerpts, voice notes
+  - `pdfs/` — Reference documents
+  - `media/` — Screenshots, audio, video
+
+## Owner context
+
+- Role: full-stack engineer (React + Go)
+- Domain: blockchain
+- Languages: English and Turkish. Sources come in both. Write wiki pages in the source's language.
+- Purpose: work reference. Practical over theoretical.
+
+### Ingest priorities
+
+Weight these higher when deciding what deserves its own entity/concept page:
+
+- Smart contracts, consensus mechanisms, L1/L2, DeFi patterns, tokenomics
+- Go patterns (concurrency, performance, API design)
+- React architecture (state management, rendering, component patterns)
+- DevOps and infra relevant to blockchain nodes/services
+
+## LLM Wiki
+
+Three layers:
+
+1. **Raw sources** (`raw/`) — immutable. Read but never modify.
+2. **Wiki** (`wiki/`) — LLM-generated pages. The LLM owns this layer.
+3. **Schema** (this rule) — rules governing wiki behavior.
+
+### Commands
+
+- `/wiki-ingest` — Process a single source into the wiki (interactive)
+- `/wiki-query` — Answer a question from the wiki with citations
+- `/wiki-lint` — Health-check for broken links, orphans, contradictions, staleness
+- `/wiki-seed` — Bulk-ingest an entire directory into the wiki (non-interactive)
+
+### Page types
+
+All wiki pages have YAML frontmatter with a `type` field:
+
+- `source` — Summary of an ingested raw document
+- `entity` — Person, company, product, project
+- `concept` — Idea, pattern, methodology, domain term
+- `comparison` — Side-by-side analysis of 2+ things
+- `synthesis` — Cross-source insight connecting multiple pages
+
+### Rules
+
+- Wiki pages live in `wiki/` and use `[[wikilinks]]` for cross-references
+- Filenames match page titles exactly (sentence case, spaces)
+- Every wiki page must be listed in `wiki/index.md`
+- Every operation (ingest, query, lint, seed) gets logged in `wiki/log.md`
+- Source pages link to all entities/concepts they generated
+- Entity/concept pages link back to the sources they came from
+- Never duplicate existing pages. If a page exists, update it instead of creating a parallel one

@@ -1,6 +1,6 @@
 # agent-config
 
-Portable brain for Claude, Codex, and Cursor.
+Portable brain for Claude, Codex, Cursor, and Hermes.
 
 This is the stuff I install on a new machine so the agent stops:
 
@@ -23,11 +23,12 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | Path | Job |
 |---|---|
 | `AGENTS.md` | House rules. One file. No vibes doc. |
+| `SOUL.md` | Always-on voice (ADHD). Linked into Claude, Codex, and Hermes. |
 | `skills/` | How to code, review, debug, and draft Slack |
-| `cursor/rules/` | Always-on Cursor rules (ADHD output) |
-| `install.sh` | The only setup step |
+| `cursor/rules/` | Cursor rules. ADHD is always on. Wiki schema is globbed to `wiki/**` and `raw/**`. |
+| `hermes/SOUL.md` | Symlink to `SOUL.md`. Hermes loads `~/.hermes/SOUL.md`. |
 
-`CLAUDE.md` just says `@AGENTS.md`. Same brain, three products.
+`CLAUDE.md` says `@SOUL.md`. Project `AGENTS.md` still wins in a repo.
 
 ## Personality, in skills
 
@@ -95,11 +96,17 @@ No `local/` folder? Clone stays generic. That is the point.
 ~/CLAUDE.md
 ~/.claude/CLAUDE.md
 ~/.claude/AGENTS.md
+~/.claude/SOUL.md
 ~/.codex/AGENTS.md
+~/.codex/SOUL.md
 ~/.agents/skills/<skill>
 ~/.claude/skills/<skill>
 ~/.codex/skills/<skill>
-~/.cursor/rules/i-have-adhd.mdc
+~/.cursor/rules/*.mdc
+~/wiki/AGENTS.md              (if ~/wiki exists; wiki schema, not always-on)
+~/.hermes/SOUL.md
+~/.hermes/config.yaml
+~/.hermes/skills/<skill>
 ```
 
 ## Not in this repo

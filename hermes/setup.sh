@@ -2,9 +2,12 @@
 set -euo pipefail
 
 repo_dir="$(cd "$(dirname "$0")/.." && pwd)"
+mkdir -p "$HOME/.hermes"
+
+echo "→ Linking Hermes SOUL.md..."
+ln -sfn "$repo_dir/SOUL.md" "$HOME/.hermes/SOUL.md"
 
 echo "→ Linking Hermes config..."
-mkdir -p "$HOME/.hermes"
 ln -sf "$repo_dir/hermes/config.yaml" "$HOME/.hermes/config.yaml"
 
 echo "→ Linking Hermes skins..."
