@@ -1,6 +1,6 @@
 # agent-config
 
-Portable brain for Claude, Codex, Cursor, and Hermes.
+Portable brain for Claude, Codex, Cursor, Hermes, and OpenCode.
 
 This is the stuff I install on a new machine so the agent stops:
 
@@ -27,6 +27,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `skills/` | How to code, review, debug, and draft Slack |
 | `cursor/rules/` | Cursor rules. ADHD is always on. Wiki schema is globbed to `wiki/**` and `raw/**`. |
 | `hermes/SOUL.md` | Symlink to `SOUL.md`. Hermes loads `~/.hermes/SOUL.md`. |
+| `opencode/opencode.json` | OpenCode via OpenRouter. Grok 4.7 default, Fable planner, DeepSeek implementer, Opus 5.5 in the picker. ClickHouse + Bruin MCPs. |
 
 `CLAUDE.md` says `@SOUL.md`. Project `AGENTS.md` still wins in a repo.
 
@@ -107,7 +108,11 @@ No `local/` folder? Clone stays generic. That is the point.
 ~/.hermes/SOUL.md
 ~/.hermes/config.yaml
 ~/.hermes/skills/<skill>
+~/.config/opencode/opencode.json
+~/.config/opencode/AGENTS.md
 ```
+
+OpenCode picks up skills from `~/.agents/skills` natively, so no extra links. Its Bruin MCP reads its token from `~/.config/opencode/bruin.token` (not in the repo). ClickHouse uses OAuth: `opencode mcp auth clickhouse`.
 
 ## Not in this repo
 
