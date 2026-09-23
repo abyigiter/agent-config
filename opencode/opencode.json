@@ -2,16 +2,6 @@
   "$schema": "https://opencode.ai/config.json",
   "default_agent": "main",
   "model": "openrouter/x-ai/grok-4.7",
-  "provider": {
-    "openrouter": {
-      "whitelist": [
-        "x-ai/grok-4.7",
-        "anthropic/claude-opus-5.5",
-        "anthropic/claude-fable-5.1",
-        "deepseek/deepseek-v4.1-flash"
-      ]
-    }
-  },
   "agent": {
     "main": {
       "mode": "primary",
