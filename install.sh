@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_dir="$(cd "$(dirname "$0")" && pwd)"
-mkdir -p "$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.agents/skills" "$HOME/.cursor/rules" "$HOME/.hermes/skills"
+mkdir -p "$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.agents/skills" "$HOME/.cursor/rules" "$HOME/.hermes/skills" "$HOME/.config/opencode"
 
 if [[ -f "$repo_dir/local/AGENTS.append.md" ]]; then
   combined="$HOME/.agents/AGENTS.combined.md"
@@ -10,10 +10,12 @@ if [[ -f "$repo_dir/local/AGENTS.append.md" ]]; then
   ln -sfn "$combined" "$HOME/AGENTS.md"
   ln -sfn "$combined" "$HOME/.claude/AGENTS.md"
   ln -sfn "$combined" "$HOME/.codex/AGENTS.md"
+  ln -sfn "$combined" "$HOME/.config/opencode/AGENTS.md"
 else
   ln -sfn "$repo_dir/AGENTS.md" "$HOME/AGENTS.md"
   ln -sfn "$repo_dir/.claude/AGENTS.md" "$HOME/.claude/AGENTS.md"
   ln -sfn "$repo_dir/.codex/AGENTS.md" "$HOME/.codex/AGENTS.md"
+  ln -sfn "$repo_dir/AGENTS.md" "$HOME/.config/opencode/AGENTS.md"
 fi
 
 ln -sf "$repo_dir/CLAUDE.md" "$HOME/CLAUDE.md"
@@ -91,6 +93,10 @@ for f in "$HOME/.cursor/plugins/cache/cursor-public/gitlab/"*/rules/gitlab-workf
   [[ -f "$f" ]] || continue
   perl -i -pe 's/^alwaysApply: true$/alwaysApply: false/' "$f"
 done
+
+# ── OpenCode ─────────────────────────────────────────────────────────
+ln -sfn "$repo_dir/opencode/opencode.json" "$HOME/.config/opencode/opencode.json"
+[[ -f "$HOME/.config/opencode/bruin.token" ]] || echo "  Bruin MCP needs a token: put it in ~/.config/opencode/bruin.token (chmod 600)"
 
 # ── Hermes Agent ─────────────────────────────────────────────────────
 mkdir -p "$HOME/.hermes"

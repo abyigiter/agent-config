@@ -1,0 +1,90 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "main",
+  "model": "openrouter/x-ai/grok-4.7",
+  "provider": {
+    "openrouter": {
+      "whitelist": [
+        "x-ai/grok-4.7",
+        "anthropic/claude-opus-5.5",
+        "anthropic/claude-fable-5.1",
+        "deepseek/deepseek-v4.1-flash"
+      ]
+    }
+  },
+  "agent": {
+    "main": {
+      "mode": "primary",
+      "description": "General coding agent on Grok"
+    },
+    "build": {
+      "model": "openrouter/deepseek/deepseek-v4.1-flash"
+    },
+    "planner": {
+      "mode": "primary",
+      "model": "openrouter/anthropic/claude-fable-5.1",
+      "description": "Fable planner: reads the codebase, writes PLAN.md, changes nothing else",
+      "prompt": "You are a planning agent. Explore the codebase with read tools and bash (read-only commands only: ls, cat, grep, git log, git diff, etc.). Produce a detailed, step-by-step implementation plan and write it to PLAN.md. PLAN.md is the only file you may create or edit. Do not implement anything.",
+      "permission": {
+        "edit": { "*": "deny", "PLAN.md": "allow" },
+        "write": { "*": "deny", "PLAN.md": "allow" },
+        "bash": {
+          "*": "ask",
+          "ls *": "allow",
+          "cat *": "allow",
+          "grep *": "allow",
+          "rg *": "allow",
+          "find *": "allow",
+          "git log*": "allow",
+          "git diff*": "allow",
+          "git status*": "allow"
+        }
+      }
+    },
+    "orchestrator": {
+      "mode": "primary",
+      "model": "openrouter/anthropic/claude-fable-5.1",
+      "description": "Plans with Fable, delegates code changes to @implementer",
+      "prompt": "You plan and coordinate. Write the plan to PLAN.md, then break it into concrete tasks and delegate all code changes to @implementer. Review its results and iterate. The only file you may edit yourself is PLAN.md.",
+      "permission": {
+        "edit": { "*": "deny", "PLAN.md": "allow" },
+        "write": { "*": "deny", "PLAN.md": "allow" },
+        "task": { "*": "deny", "implementer": "allow" }
+      }
+    },
+    "implementer": {
+      "mode": "subagent",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash",
+      "description": "Implements a well-specified coding task: writes and edits code, runs tests, reports back.",
+      "steps": 30
+    }
+  },
+  "command": {
+    "plan": {
+      "agent": "planner",
+      "description": "Make an implementation plan with Fable",
+      "template": "Make a detailed implementation plan for: $ARGUMENTS\n\nWrite the plan to PLAN.md. Do not implement anything."
+    },
+    "implement": {
+      "agent": "build",
+      "description": "Implement PLAN.md with DeepSeek",
+      "template": "Read PLAN.md. Implement each step. Run the tests after each step."
+    }
+  },
+  "mcp": {
+    "clickhouse": {
+      "type": "remote",
+      "url": "https://mcp.clickhouse.cloud/mcp",
+      "enabled": true
+    },
+    "bruin_cloud": {
+      "type": "remote",
+      "url": "https://cloud.getbruin.com/mcp",
+      "enabled": true,
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {file:~/.config/opencode/bruin.token}"
+      }
+    }
+  }
+}
