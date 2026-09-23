@@ -96,7 +96,9 @@ done
 
 # ── OpenCode ─────────────────────────────────────────────────────────
 ln -sfn "$repo_dir/opencode/opencode.json" "$HOME/.config/opencode/opencode.json"
-[[ -f "$HOME/.config/opencode/bruin.token" ]] || echo "  Bruin MCP needs a token: put it in ~/.config/opencode/bruin.token (chmod 600)"
+for t in bruin lightdash allium; do
+  [[ -f "$HOME/.config/opencode/$t.token" ]] || echo "  OpenCode $t MCP needs a token: put it in ~/.config/opencode/$t.token (chmod 600)"
+done
 
 # ── Hermes Agent ─────────────────────────────────────────────────────
 mkdir -p "$HOME/.hermes"

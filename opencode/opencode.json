@@ -75,6 +75,43 @@
       "headers": {
         "Authorization": "Bearer {file:~/.config/opencode/bruin.token}"
       }
+    },
+    "lightdash": {
+      "type": "remote",
+      "url": "https://polygon.lightdash.cloud/api/v1/mcp",
+      "enabled": true,
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {file:~/.config/opencode/lightdash.token}"
+      }
+    },
+    "allium": {
+      "type": "remote",
+      "url": "https://mcp.allium.so",
+      "enabled": true,
+      "oauth": false,
+      "headers": {
+        "X-API-KEY": "{file:~/.config/opencode/allium.token}"
+      }
+    },
+    "slack": {
+      "type": "remote",
+      "url": "https://mcp.slack.com/mcp",
+      "enabled": true,
+      "oauth": {
+        "clientId": "1601185624273.8899143856786",
+        "callbackPort": 3118
+      }
+    },
+    "figma": {
+      "type": "remote",
+      "url": "https://mcp.figma.com/mcp",
+      "enabled": true
+    },
+    "google-drive": {
+      "type": "remote",
+      "url": "https://drivemcp.googleapis.com/mcp/v1",
+      "enabled": true
     }
   }
 }
