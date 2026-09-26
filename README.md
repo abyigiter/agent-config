@@ -1,6 +1,6 @@
 # agent-config
 
-Portable brain for Claude, Codex, Cursor, Hermes, and OpenCode.
+Portable brain for Claude, Codex, Cursor, Hermes, Kilo Code, and OpenCode.
 
 This is the stuff I install on a new machine so the agent stops:
 
@@ -28,6 +28,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `cursor/rules/` | Cursor rules. ADHD is always on. Wiki schema is globbed to `wiki/**` and `raw/**`. |
 | `hermes/SOUL.md` | Symlink to `SOUL.md`. Hermes loads `~/.hermes/SOUL.md`. |
 | `opencode/opencode.json` | OpenCode via OpenRouter. Grok 4.7 default, Fable planner, DeepSeek implementer. All OpenRouter models in the picker. ClickHouse, Bruin, Lightdash, Allium, Figma (desktop), Google Drive MCPs. Slack off. |
+| `kilo/` | Kilo Code agents, slash commands, and permission to load their linked files. |
 
 `CLAUDE.md` says `@SOUL.md`. Project `AGENTS.md` still wins in a repo.
 
@@ -110,6 +111,10 @@ No `local/` folder? Clone stays generic. That is the point.
 ~/.hermes/skills/<skill>
 ~/.config/opencode/opencode.json
 ~/.config/opencode/AGENTS.md
+~/.config/kilo/AGENTS.md
+~/.config/kilo/kilo.json
+~/.config/kilo/agents/*.md
+~/.config/kilo/commands/*.md
 ```
 
 OpenCode picks up skills from `~/.agents/skills` natively, so no extra links. Bruin, Lightdash, and Allium MCPs read tokens from `~/.config/opencode/{bruin,lightdash,allium}.token` (not in the repo). ClickHouse and Google Drive use OAuth: `opencode mcp auth <name>`. Figma uses the Figma desktop app's local MCP server (remote Figma MCP only allowlists other clients). Slack is disabled: its MCP needs a pre-registered Slack app.
