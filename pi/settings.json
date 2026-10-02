@@ -1,9 +1,9 @@
 {
   "theme": "macchiato",
   "defaultProvider": "openrouter",
-  "defaultModel": "z-ai/glm-5.3",
+  "defaultModel": "z-ai/glm-5.3-flash",
   "modelThinkingLevels": {
-    "openrouter/z-ai/glm-5.3": "high"
+    "openrouter/z-ai/glm-5.3-flash": "high"
   },
   "enabledModels": [
     "z-ai/glm-5.3",
