@@ -24,6 +24,8 @@
   "lastChangelogVersion": "1.0.0",
   "packages": [
     "npm:pi-web-access",
-    "npm:cc-safety-net"
+    "npm:cc-safety-net",
+    "npm:pi-powerline-footer",
+    "npm:@plannotator/pi-extension"
   ]
 }
