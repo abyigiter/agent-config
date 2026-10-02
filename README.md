@@ -28,6 +28,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `cursor/rules/` | Cursor rules. ADHD is always on. Wiki schema is globbed to `wiki/**` and `raw/**`. |
 | `opencode/opencode.json` | OpenCode via OpenRouter. GLM 5.3 default, Fable planner, DeepSeek implementer. All OpenRouter models in the picker. ClickHouse, Bruin, Lightdash, Allium, Figma (desktop), Google Drive MCPs. Slack off. |
 | `pi/settings.json` | Pi via OpenRouter. GLM 5.3 at high thinking by default, plus GPT-6.1 Sol / 6 Luna / 6 Astra, Grok 4.7, Claude Sonnet 5.5 / Opus 5.5, DeepSeek V4 Pro, Kimi K3, Qwen 3.8, and Muse Spark 1.3 in the model cycle. MCPs stay in a machine-local `~/.pi/agent/mcp.json`, not in the repo. |
+| `pi/themes/` | Soft Catppuccin-Macchiato palette for the Pi TUI (`macchiato`, active by default). |
 
 `CLAUDE.md` says `@SOUL.md`. Project `AGENTS.md` still wins in a repo.
 
