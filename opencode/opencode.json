@@ -1,11 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "default_agent": "main",
-  "model": "openrouter/x-ai/grok-4.7",
+  "model": "openrouter/z-ai/glm-5.3",
   "agent": {
     "main": {
       "mode": "primary",
-      "description": "General coding agent on Grok"
+      "description": "General coding agent on GLM 5.3"
     },
     "build": {
       "model": "openrouter/deepseek/deepseek-v4.1-flash"

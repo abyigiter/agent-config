@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_dir="$(cd "$(dirname "$0")" && pwd)"
-mkdir -p "$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.agents/skills" "$HOME/.cursor/rules" "$HOME/.hermes/skills" "$HOME/.config/opencode" "$HOME/.config/kilo/agents" "$HOME/.config/kilo/commands"
+mkdir -p "$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.agents/skills" "$HOME/.cursor/rules" "$HOME/.hermes/skills" "$HOME/.config/opencode" "$HOME/.config/kilo/agents" "$HOME/.config/kilo/commands" "$HOME/.pi/agent"
 
 if [[ -f "$repo_dir/local/AGENTS.append.md" ]]; then
   combined="$HOME/.agents/AGENTS.combined.md"
@@ -101,6 +101,15 @@ ln -sfn "$repo_dir/opencode/opencode.json" "$HOME/.config/opencode/opencode.json
 for t in bruin lightdash allium; do
   [[ -f "$HOME/.config/opencode/$t.token" ]] || echo "  OpenCode $t MCP needs a token: put it in ~/.config/opencode/$t.token (chmod 600)"
 done
+
+# ── Pi ───────────────────────────────────────────────────────────────
+ln -sfn "$repo_dir/pi/settings.json" "$HOME/.pi/agent/settings.json"
+if [[ -f "$HOME/.agents/AGENTS.combined.md" ]]; then
+  ln -sfn "$HOME/.agents/AGENTS.combined.md" "$HOME/.pi/agent/AGENTS.md"
+else
+  ln -sfn "$repo_dir/AGENTS.md" "$HOME/.pi/agent/AGENTS.md"
+fi
+[[ -f "$HOME/.pi/agent/mcp.json" ]] || echo "  Pi MCPs are machine-local: create ~/.pi/agent/mcp.json (not in the repo)"
 
 # ── Kilo Code ─────────────────────────────────────────────────────────
 if [[ -e "$HOME/.config/kilo/kilo.json" && ! -L "$HOME/.config/kilo/kilo.json" ]]; then

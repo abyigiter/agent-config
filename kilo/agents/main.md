@@ -1,7 +1,7 @@
 ---
-description: General coding agent on Grok
+description: General coding agent on GLM 5.3
 mode: primary
-model: openrouter/x-ai/grok-4.7
+model: openrouter/z-ai/glm-5.3
 ---
 
 General coding agent.

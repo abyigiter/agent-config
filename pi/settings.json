@@ -1,0 +1,13 @@
+{
+  "defaultProvider": "openrouter",
+  "defaultModel": "z-ai/glm-5.3",
+  "modelThinkingLevels": {
+    "openrouter/z-ai/glm-5.3": "high"
+  },
+  "enabledModels": [
+    "z-ai/glm-5.3",
+    "z-ai/glm-5.3-flash",
+    "anthropic/claude-fable-5.1",
+    "deepseek/deepseek-v4.1-flash"
+  ]
+}

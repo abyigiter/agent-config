@@ -1,6 +1,6 @@
 # agent-config
 
-Portable brain for Claude, Codex, Cursor, Hermes, Kilo Code, and OpenCode.
+Portable brain for Claude, Codex, Cursor, Hermes, Kilo Code, OpenCode, and Pi.
 
 This is the stuff I install on a new machine so the agent stops:
 
@@ -27,7 +27,8 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `skills/` | How to code, review, debug, and draft Slack |
 | `cursor/rules/` | Cursor rules. ADHD is always on. Wiki schema is globbed to `wiki/**` and `raw/**`. |
 | `hermes/SOUL.md` | Symlink to `SOUL.md`. Hermes loads `~/.hermes/SOUL.md`. |
-| `opencode/opencode.json` | OpenCode via OpenRouter. Grok 4.7 default, Fable planner, DeepSeek implementer. All OpenRouter models in the picker. ClickHouse, Bruin, Lightdash, Allium, Figma (desktop), Google Drive MCPs. Slack off. |
+| `opencode/opencode.json` | OpenCode via OpenRouter. GLM 5.3 default, Fable planner, DeepSeek implementer. All OpenRouter models in the picker. ClickHouse, Bruin, Lightdash, Allium, Figma (desktop), Google Drive MCPs. Slack off. |
+| `pi/settings.json` | Pi via OpenRouter. GLM 5.3 at high thinking by default, GLM 5.3 Flash, Fable, and DeepSeek in the model cycle. MCPs stay in a machine-local `~/.pi/agent/mcp.json`, not in the repo. |
 | `kilo/` | Kilo Code agents, slash commands, and permission to load their linked files. |
 
 `CLAUDE.md` says `@SOUL.md`. Project `AGENTS.md` still wins in a repo.
@@ -111,6 +112,8 @@ No `local/` folder? Clone stays generic. That is the point.
 ~/.hermes/skills/<skill>
 ~/.config/opencode/opencode.json
 ~/.config/opencode/AGENTS.md
+~/.pi/agent/settings.json
+~/.pi/agent/AGENTS.md
 ~/.config/kilo/AGENTS.md
 ~/.config/kilo/kilo.json
 ~/.config/kilo/agents/*.md
@@ -118,6 +121,8 @@ No `local/` folder? Clone stays generic. That is the point.
 ```
 
 OpenCode picks up skills from `~/.agents/skills` natively, so no extra links. Bruin, Lightdash, and Allium MCPs read tokens from `~/.config/opencode/{bruin,lightdash,allium}.token` (not in the repo). ClickHouse and Google Drive use OAuth: `opencode mcp auth <name>`. Figma uses the Figma desktop app's local MCP server (remote Figma MCP only allowlists other clients). Slack is disabled: its MCP needs a pre-registered Slack app.
+
+Pi reads skills from `~/.agents/skills` natively too. Its MCPs mirror the OpenCode set from the machine-local `~/.pi/agent/mcp.json` (not in the repo) and read the same token files. OAuth servers sign in with `pi mcp login <name>`.
 
 ## Not in this repo
 
