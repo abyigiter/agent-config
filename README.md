@@ -1,6 +1,6 @@
 # agent-config
 
-Portable brain for Claude, Codex, Cursor, Hermes, Kilo Code, and OpenCode.
+Portable brain for Claude, Codex, Cursor, OpenCode, and Pi.
 
 This is the stuff I install on a new machine so the agent stops:
 
@@ -23,12 +23,12 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | Path | Job |
 |---|---|
 | `AGENTS.md` | House rules. One file. No vibes doc. |
-| `SOUL.md` | Always-on voice (ADHD). Linked into Claude, Codex, and Hermes. |
+| `SOUL.md` | Always-on voice (ADHD). Linked into Claude and Codex. |
 | `skills/` | How to code, review, debug, and draft Slack |
 | `cursor/rules/` | Cursor rules. ADHD is always on. Wiki schema is globbed to `wiki/**` and `raw/**`. |
-| `hermes/SOUL.md` | Symlink to `SOUL.md`. Hermes loads `~/.hermes/SOUL.md`. |
-| `opencode/opencode.json` | OpenCode via OpenRouter. Grok 4.7 default, Fable planner, DeepSeek implementer. All OpenRouter models in the picker. ClickHouse, Bruin, Lightdash, Allium, Figma (desktop), Google Drive MCPs. Slack off. |
-| `kilo/` | Kilo Code agents, slash commands, and permission to load their linked files. |
+| `opencode/opencode.json` | OpenCode via OpenRouter. GLM 5.3 default, Fable planner, DeepSeek implementer. All OpenRouter models in the picker. ClickHouse, Bruin, Lightdash, Allium, Figma (desktop), Google Drive MCPs. Slack off. |
+| `pi/settings.json` | Pi via OpenRouter. GLM 5.3 at high thinking by default, plus GPT-6.1 Sol / 6 Luna / 6 Astra, Grok 4.7, Claude Sonnet 5.5 / Opus 5.5, DeepSeek V4 Pro, Kimi K3, Qwen 3.8, and Muse Spark 1.3 in the model cycle. MCPs stay in a machine-local `~/.pi/agent/mcp.json`, not in the repo. |
+| `pi/themes/` | Soft Catppuccin-Macchiato palette for the Pi TUI (`macchiato`, active by default). |
 
 `CLAUDE.md` says `@SOUL.md`. Project `AGENTS.md` still wins in a repo.
 
@@ -106,18 +106,15 @@ No `local/` folder? Clone stays generic. That is the point.
 ~/.codex/skills/<skill>
 ~/.cursor/rules/*.mdc
 ~/wiki/AGENTS.md              (if ~/wiki exists; wiki schema, not always-on)
-~/.hermes/SOUL.md
-~/.hermes/config.yaml
-~/.hermes/skills/<skill>
 ~/.config/opencode/opencode.json
 ~/.config/opencode/AGENTS.md
-~/.config/kilo/AGENTS.md
-~/.config/kilo/kilo.json
-~/.config/kilo/agents/*.md
-~/.config/kilo/commands/*.md
+~/.pi/agent/settings.json
+~/.pi/agent/AGENTS.md
 ```
 
 OpenCode picks up skills from `~/.agents/skills` natively, so no extra links. Bruin, Lightdash, and Allium MCPs read tokens from `~/.config/opencode/{bruin,lightdash,allium}.token` (not in the repo). ClickHouse and Google Drive use OAuth: `opencode mcp auth <name>`. Figma uses the Figma desktop app's local MCP server (remote Figma MCP only allowlists other clients). Slack is disabled: its MCP needs a pre-registered Slack app.
+
+Pi reads skills from `~/.agents/skills` natively too. Its MCPs mirror the OpenCode set from the machine-local `~/.pi/agent/mcp.json` (not in the repo) and read the same token files. OAuth servers sign in with `pi mcp login <name>`.
 
 ## Not in this repo
 

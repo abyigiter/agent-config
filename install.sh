@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_dir="$(cd "$(dirname "$0")" && pwd)"
-mkdir -p "$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.agents/skills" "$HOME/.cursor/rules" "$HOME/.hermes/skills" "$HOME/.config/opencode" "$HOME/.config/kilo/agents" "$HOME/.config/kilo/commands"
+mkdir -p "$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.agents/skills" "$HOME/.cursor/rules" "$HOME/.config/opencode" "$HOME/.pi/agent"
 
 if [[ -f "$repo_dir/local/AGENTS.append.md" ]]; then
   combined="$HOME/.agents/AGENTS.combined.md"
@@ -18,18 +18,15 @@ else
   ln -sfn "$repo_dir/AGENTS.md" "$HOME/.config/opencode/AGENTS.md"
 fi
 
-ln -sfn "$HOME/AGENTS.md" "$HOME/.config/kilo/AGENTS.md"
-
 ln -sf "$repo_dir/CLAUDE.md" "$HOME/CLAUDE.md"
 ln -sf "$repo_dir/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 ln -sfn "$repo_dir/SOUL.md" "$HOME/.claude/SOUL.md"
 ln -sfn "$repo_dir/SOUL.md" "$HOME/.codex/SOUL.md"
-ln -sfn "$repo_dir/SOUL.md" "$HOME/.hermes/SOUL.md"
 
 link_skill() {
   local src="$1"
   local name="$2"
-  for dest in "$HOME/.agents/skills/$name" "$HOME/.claude/skills/$name" "$HOME/.codex/skills/$name" "$HOME/.hermes/skills/$name"; do
+  for dest in "$HOME/.agents/skills/$name" "$HOME/.claude/skills/$name" "$HOME/.codex/skills/$name"; do
     if [[ -e "$dest" && ! -L "$dest" ]]; then
       rm -rf "$dest"
     fi
@@ -102,39 +99,14 @@ for t in bruin lightdash allium; do
   [[ -f "$HOME/.config/opencode/$t.token" ]] || echo "  OpenCode $t MCP needs a token: put it in ~/.config/opencode/$t.token (chmod 600)"
 done
 
-# ── Kilo Code ─────────────────────────────────────────────────────────
-if [[ -e "$HOME/.config/kilo/kilo.json" && ! -L "$HOME/.config/kilo/kilo.json" ]]; then
-  echo "  Kilo kilo.json already exists; not replacing it with agent-config settings"
+# ── Pi ───────────────────────────────────────────────────────────────
+ln -sfn "$repo_dir/pi/settings.json" "$HOME/.pi/agent/settings.json"
+mkdir -p "$HOME/.pi/agent/themes"
+ln -sfn "$repo_dir/pi/themes/"*.json "$HOME/.pi/agent/themes/"
+ln -sfn "$repo_dir/pi/keybindings.json" "$HOME/.pi/agent/keybindings.json"
+if [[ -f "$HOME/.agents/AGENTS.combined.md" ]]; then
+  ln -sfn "$HOME/.agents/AGENTS.combined.md" "$HOME/.pi/agent/AGENTS.md"
 else
-  ln -sfn "$repo_dir/kilo/kilo.json" "$HOME/.config/kilo/kilo.json"
+  ln -sfn "$repo_dir/AGENTS.md" "$HOME/.pi/agent/AGENTS.md"
 fi
-for kind in agents commands; do
-  for f in "$repo_dir/kilo/$kind"/*.md(N); do
-    [[ -f "$f" ]] || continue
-    dest="$HOME/.config/kilo/$kind/$(basename "$f")"
-    if [[ -e "$dest" && ! -L "$dest" ]]; then
-      echo "  Kilo $kind/$(basename "$f") already exists; leaving it untouched"
-    else
-      ln -sfn "$f" "$dest"
-    fi
-  done
-done
-
-# ── Hermes Agent ─────────────────────────────────────────────────────
-mkdir -p "$HOME/.hermes"
-
-if command -v hermes &>/dev/null; then
-  ln -sf "$repo_dir/hermes/config.yaml" "$HOME/.hermes/config.yaml"
-
-  # Link custom skins
-  mkdir -p "$HOME/.hermes/skins"
-  for skin in "$repo_dir"/hermes/skins/*.yaml; do
-    [[ -f "$skin" ]] && ln -sf "$skin" "$HOME/.hermes/skins/$(basename "$skin")"
-  done
-
-  if [[ ! -f "$HOME/.hermes/.env" ]]; then
-    cp "$repo_dir/hermes/.env.template" "$HOME/.hermes/.env"
-    chmod 600 "$HOME/.hermes/.env"
-    echo "  Created ~/.hermes/.env — edit it with your API keys: $EDITOR ~/.hermes/.env"
-  fi
-fi
+[[ -f "$HOME/.pi/agent/mcp.json" ]] || echo "  Pi MCPs are machine-local: create ~/.pi/agent/mcp.json (not in the repo)"
