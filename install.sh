@@ -103,6 +103,7 @@ done
 ln -sfn "$repo_dir/pi/settings.json" "$HOME/.pi/agent/settings.json"
 mkdir -p "$HOME/.pi/agent/themes"
 ln -sfn "$repo_dir/pi/themes/"*.json "$HOME/.pi/agent/themes/"
+ln -sfn "$repo_dir/pi/keybindings.json" "$HOME/.pi/agent/keybindings.json"
 if [[ -f "$HOME/.agents/AGENTS.combined.md" ]]; then
   ln -sfn "$HOME/.agents/AGENTS.combined.md" "$HOME/.pi/agent/AGENTS.md"
 else
