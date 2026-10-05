@@ -26,7 +26,7 @@
   "packages": [
     "npm:pi-web-access",
     "npm:cc-safety-net",
-    "npm:pi-powerline-footer",
-    "npm:@plannotator/pi-extension"
+    "npm:@plannotator/pi-extension",
+    "git:github.com/abyigiter/claude-usage-bar"
   ]
 }
