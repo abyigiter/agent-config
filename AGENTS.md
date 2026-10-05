@@ -27,7 +27,7 @@ Off only if I say "stop adhd mode" or "normal mode".
 - Conventional commits (`feat:`, `fix:`, `chore:`, `refactor:`, `test:`, `docs:`), atomic, in English.
 - During PR review: no amending existing commits, add a follow-up commit. No force-push except after an explicit rebase.
 - Stacked PRs: use SDF (`sdf status`, `sdf fetch`, `sdf sync`, `sdf pr`). Plain `sdf sync` only, never `--with-content` unless I ask.
-- PR title under 70 chars, no trailing punctuation. Body: **Summary** / **Why** / **Test plan** / **Risks**.
+- PR title: conventional prefix, under 70 chars, no trailing punctuation; squash merge makes it the commit title. Body: **Summary** / **Why** / **Test plan** / **Risks**.
 - Never commit `.env`, secrets, or credentials.
 
 ## Code review
