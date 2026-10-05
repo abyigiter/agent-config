@@ -46,7 +46,6 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 |---|---|
 | `less-code` | Climb the ladder. YAGNI. Reuse. Then the smallest diff. |
 | `development` | One story, one PR. No "follow-up". Make, not vibes. |
-| `test-driven-development` | Failing test first. Then the implementation. |
 | `go` | `err`, `new(value)`, one `TestX`. Project skills still win. |
 | `react` | No `any`. Existing UI. Typecheck is not the screen working. |
 
@@ -54,10 +53,8 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 
 | Skill | Use |
 |---|---|
-| `brainstorming` | Design before typing. Get a nod. |
 | `implement-feature` | Plan mode, then the full slice. |
 | `writing-design-proposals` | An RFC a human can actually follow. |
-| `systematic-debugging` | Root cause. Symptom patches are failure. |
 | `handoff` | Compact this chat for the next agent. You have to ask. |
 
 **Talk to humans**
@@ -72,13 +69,10 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 
 | Skill | Use |
 |---|---|
-| `find-skills` | Search skills.sh |
 | `vercel-react-best-practices` | Vercel React/Next performance |
 | `web-design-guidelines` | UI/a11y review |
 | `performance` | Core Web Vitals |
 | `agent-browser` | Browser CLI. Prefer over Playwright |
-| `webapp-testing` | Playwright fallback |
-| `figma-code-connect` | `.figma.ts` templates. Not `.figma.tsx`. |
 
 ## Local overlay
 

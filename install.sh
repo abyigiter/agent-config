@@ -36,10 +36,7 @@ link_skill() {
 
 skills=(
   agent-browser
-  brainstorming
   development
-  figma-code-connect
-  find-skills
   fix-pr-comments
   go
   handoff
@@ -50,11 +47,8 @@ skills=(
   performance
   pr-comment-review
   react
-  systematic-debugging
-  test-driven-development
   vercel-react-best-practices
   web-design-guidelines
-  webapp-testing
   writing-design-proposals
 )
 for s in "${skills[@]}"; do
