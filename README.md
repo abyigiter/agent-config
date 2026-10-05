@@ -109,7 +109,6 @@ No `local/` folder? Clone stays generic. That is the point.
 ~/.config/opencode/opencode.json
 ~/.config/opencode/AGENTS.md
 ~/.pi/agent/settings.json
-~/.pi/agent/AGENTS.md
 ```
 
 OpenCode picks up skills from `~/.agents/skills` natively, so no extra links. Bruin, Lightdash, and Allium MCPs read tokens from `~/.config/opencode/{bruin,lightdash,allium}.token` (not in the repo). ClickHouse and Google Drive use OAuth: `opencode mcp auth <name>`. Figma uses the Figma desktop app's local MCP server (remote Figma MCP only allowlists other clients). Slack is disabled: its MCP needs a pre-registered Slack app.

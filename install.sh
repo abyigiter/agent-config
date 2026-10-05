@@ -104,9 +104,6 @@ ln -sfn "$repo_dir/pi/settings.json" "$HOME/.pi/agent/settings.json"
 mkdir -p "$HOME/.pi/agent/themes"
 ln -sfn "$repo_dir/pi/themes/"*.json "$HOME/.pi/agent/themes/"
 ln -sfn "$repo_dir/pi/keybindings.json" "$HOME/.pi/agent/keybindings.json"
-if [[ -f "$HOME/.agents/AGENTS.combined.md" ]]; then
-  ln -sfn "$HOME/.agents/AGENTS.combined.md" "$HOME/.pi/agent/AGENTS.md"
-else
-  ln -sfn "$repo_dir/AGENTS.md" "$HOME/.pi/agent/AGENTS.md"
-fi
+# Pi already loads ~/AGENTS.md via the cwd chain; a ~/.pi/agent/AGENTS.md copy would double-load.
+rm -f "$HOME/.pi/agent/AGENTS.md"
 [[ -f "$HOME/.pi/agent/mcp.json" ]] || echo "  Pi MCPs are machine-local: create ~/.pi/agent/mcp.json (not in the repo)"
