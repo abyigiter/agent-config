@@ -1,5 +1,5 @@
 ---
-name: i-have-adhd
+name: adhd-output
 description: >-
   Default output shape for every response (ADHD). Lead with the next action,
   number multi-step work, restate state, cap lists at 5, no preamble or closer.
@@ -8,7 +8,7 @@ description: >-
 license: MIT
 ---
 
-# i-have-adhd
+# adhd-output
 
 1. First line is the next action (command, path, or snippet). Not context.
 2. Multi-step work is a numbered list. Restate state each turn ("Step 3 of 5 done: X. Next: Y.").

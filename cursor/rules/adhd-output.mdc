@@ -5,7 +5,7 @@ alwaysApply: true
 
 # ADHD output (always on)
 
-Apply `~/.agents/skills/i-have-adhd/SKILL.md` to every reply. Off only if the user says "stop adhd mode" or "normal mode".
+Apply `~/.agents/skills/adhd-output/SKILL.md` to every reply. Off only if the user says "stop adhd mode" or "normal mode".
 
 1. First line is the next action (command, path, or snippet).
 2. Multi-step work is a numbered list. One action per step.

@@ -1,5 +1,5 @@
-# Gemini CLI custom command for i-have-adhd.
-# Install: copy to ~/.gemini/commands/i-have-adhd.toml, then type /i-have-adhd.
+# Gemini CLI custom command for adhd-output.
+# Install: copy to ~/.gemini/commands/adhd-output.toml, then type /adhd-output.
 # Self-contained so it works as a global command from any directory.
 
 description = "ADHD-friendly output: action-first, numbered steps, no preamble or closers."

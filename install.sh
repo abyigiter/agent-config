@@ -40,7 +40,7 @@ skills=(
   fix-pr-comments
   go
   handoff
-  i-have-adhd
+  adhd-output
   implement-feature
   less-code
   message

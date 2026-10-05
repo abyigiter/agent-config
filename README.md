@@ -38,7 +38,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 
 | Skill | Use |
 |---|---|
-| `i-have-adhd` | First line is the next action. Lists cap at 5. No closer. |
+| `adhd-output` | First line is the next action. Lists cap at 5. No closer. |
 
 **Write code**
 

@@ -33,7 +33,7 @@ I think this might be the bug. Can you check?
 
 ## Anti-triggers
 
-- Talking to Bugra in Cursor / Claude / Codex: `i-have-adhd`. Not this skill.
+- Talking to Bugra in Cursor / Claude / Codex: `adhd-output`. Not this skill.
 - Post a GitHub review as the reviewer: `pr-comment-review`.
 - He is the author and wants comments fixed: `fix-pr-comments`.
 - PR description body: follow AGENTS.md PR skeleton. Still no em dash. Still simple English.
