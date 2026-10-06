@@ -2,8 +2,11 @@
   "theme": "macchiato",
   "defaultProvider": "openrouter",
   "defaultModel": "z-ai/glm-5.3-flash",
+  "defaultThinkingLevel": "high",
   "modelThinkingLevels": {
-    "openrouter/z-ai/glm-5.3-flash": "high"
+    "openrouter/z-ai/glm-5.3-flash": "max",
+    "openrouter/deepseek/deepseek-v4.1-flash": "max",
+    "openrouter/openai/gpt-6-luna": "max"
   },
   "enabledModels": [
     "z-ai/glm-5.3",
