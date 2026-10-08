@@ -1,0 +1,50 @@
+{
+  "providers": {
+    "openrouter": {
+      "models": [
+        {
+          "type": "chat",
+          "id": "anthropic/claude-haiku-5.5",
+          "name": "Anthropic: Claude Haiku 5.5",
+          "api": "anthropic-messages",
+          "baseUrl": "https://openrouter.ai/api",
+          "provider": "openrouter",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": null,
+            "minimal": null,
+            "low": "low",
+            "medium": "medium",
+            "high": "high",
+            "xhigh": "xhigh",
+            "max": "max"
+          },
+          "input": ["text", "image"],
+          "cost": {
+            "input": 0.1,
+            "output": 0.5,
+            "cacheRead": 0.01,
+            "cacheWrite": 0.125
+          },
+          "contextWindow": 1000000,
+          "maxTokens": 128000,
+          "compat": {
+            "supportsMidConvoEffort": true,
+            "forceAdaptiveThinking": true,
+            "supportsTemperature": false
+          },
+          "inputLimits": {
+            "images": {
+              "resize": {
+                "maxWidth": 2000,
+                "maxHeight": 2000,
+                "maxBytes": 4718592,
+                "jpegQuality": 80
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
