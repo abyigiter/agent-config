@@ -197,6 +197,8 @@ Chains:
 /implement add input validation to the signup handler      # scout -> planner -> worker
 /scout-and-plan migrate auth to OAuth                       # scout -> planner, no edits
 /implement-and-review add retry to the webhook client      # worker -> reviewer -> worker
+/review-pr 42                                              # scout -> reviewer; your PR: markdown only, peer PR: posts review
+/fix-pr-reviews 42 commit                                  # scout -> planner -> worker; replies on disagree threads, commit/push only if asked
 ```
 
 Single agent or parallel, in plain English:
@@ -235,6 +237,8 @@ The same four roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent
 /scout-and-plan migrate auth to OAuth                     # scout -> planner, no edits
 /implement add input validation to the signup handler    # scout -> planner -> worker
 /implement-and-review add retry to the webhook client    # worker -> reviewer -> worker (fix pass only if needed)
+/review-pr 42                                            # scout -> reviewer; your PR: markdown only, peer PR: posts review
+/fix-pr-reviews 42 commit                                # scout -> planner -> worker; replies on disagree threads, commit/push only if asked
 ```
 
 - The `polygon-core` plugin's `guard-agent-model-pin` hook blocks Agent calls that don't pass `model`. That parameter only takes aliases and overrides the frontmatter, so the commands pass `haiku` / `opus` / `sonnet` explicitly. The frontmatter full IDs still apply when you call an agent directly without the hook.
