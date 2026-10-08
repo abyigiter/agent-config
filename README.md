@@ -31,6 +31,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `pi/models.json` | Custom OpenRouter model defs Pi doesn't ship yet (Claude Haiku 5.5). |
 | `.claude/agents/`, `.claude/commands/` | Claude Code subagents `scout` (Haiku 5.5), `planner` + `reviewer` (Opus 5.5, high effort), `worker` (Sonnet 5.5), and the same three chain commands. See [Claude subagents](#claude-subagents). |
 | `pi/agents/`, `pi/prompts/` | Subagents via the [`pi-subagents`](https://github.com/nicobailon/pi-subagents) package. Builtin `scout` / `reviewer` / `worker` get model overrides in `pi/settings.json` (`subagents.agentOverrides`); custom `planner` (GPT-6.1 Sol, high) lives in `pi/agents/`. Non-Claude on purpose: Claude roles live in Claude Code. Chains: `/implement`, `/scout-and-plan`, `/implement-and-review`. |
+| `pi/extensions/*.ts` | Small local Pi extensions, linked into `~/.pi/agent/extensions/`. `fleet-hotkey.ts`: `ctrl+shift+a` opens `/subagents-fleet`. |
 | `pi/themes/` | Soft Catppuccin-Macchiato palette for the Pi TUI (`macchiato`, active by default). |
 
 `CLAUDE.md` says `@SOUL.md`. Project `AGENTS.md` still wins in a repo.
@@ -111,15 +112,75 @@ No `local/` folder? Clone stays generic. That is the point.
 ~/.pi/agent/models.json
 ~/.pi/agent/agents/*.md
 ~/.pi/agent/prompts/*.md
+~/.pi/agent/extensions/*.ts
 ```
 
 OpenCode picks up skills from `~/.agents/skills` natively, so no extra links. Bruin, Lightdash, and Allium MCPs read tokens from `~/.config/opencode/{bruin,lightdash,allium}.token` (not in the repo). ClickHouse and Google Drive use OAuth: `opencode mcp auth <name>`. Figma uses the Figma desktop app's local MCP server (remote Figma MCP only allowlists other clients). Slack is disabled: its MCP needs a pre-registered Slack app.
 
 Pi reads skills from `~/.agents/skills` natively too. Its MCPs mirror the OpenCode set from the machine-local `~/.pi/agent/mcp.json` (not in the repo) and read the same token files. OAuth servers sign in with `pi mcp login <name>`.
 
+## Subagent workflows
+
+The parent session drives every chain: it runs one subagent per stage, waits for it to finish, and passes its output into the next stage's task. `scout`, `planner`, and `reviewer` are read-only recon and review; `worker` is the only role that edits files and runs the checks.
+
+### `/implement`
+
+```mermaid
+flowchart LR
+    R([request]) --> S["scout"]
+    S -- "context + original task" --> P["planner"]
+    P -- "plan + original task" --> W["worker"]
+    W --> O(["worker report"])
+```
+
+Sources: [Claude Code](.claude/commands/implement.md) · [Pi](pi/prompts/implement.md)
+
+### `/scout-and-plan`
+
+```mermaid
+flowchart LR
+    R([request]) --> S["scout"]
+    S -- "context + original task" --> P["planner"]
+    P --> O(["returned plan"])
+```
+
+No edits: both stages are read-only, and no worker runs.
+
+Sources: [Claude Code](.claude/commands/scout-and-plan.md) · [Pi](pi/prompts/scout-and-plan.md)
+
+### `/implement-and-review`
+
+The fix stage differs by platform. Claude Code only runs the fix worker when the reviewer flags Bugs or Design issues. Pi always runs it and tells it to change nothing when the verdict is OK with no findings. The reviewer runs once either way.
+
+```mermaid
+flowchart TB
+    subgraph CC["Claude Code"]
+        direction LR
+        A([request]) --> B["worker"]
+        B -- "original task + worker report" --> C["reviewer"]
+        C -. "inspects" .-> D[("current diff")]
+        C --> E{"Bugs or Design issues?"}
+        E -- "yes" --> F["fix worker<br/>review + original task"]
+        E -- "no" --> G(["final worker report<br/>+ reviewer verdict"])
+        F --> G
+    end
+    subgraph PP["Pi"]
+        direction LR
+        H([request]) --> I["worker"]
+        I -- "original task + worker report" --> J["reviewer"]
+        J -. "inspects" .-> K[("current diff")]
+        J --> L["fix worker<br/>no changes when verdict is OK with no findings"]
+        L --> M(["final worker report<br/>+ reviewer verdict"])
+    end
+```
+
+Sources: [Claude Code](.claude/commands/implement-and-review.md) · [Pi](pi/prompts/implement-and-review.md)
+
 ## Pi subagents
 
 After `./install.sh`, run `/reload` in pi (or start a new session).
+
+Chain diagrams: [Subagent workflows](#subagent-workflows).
 
 | Agent | Model | Defined in |
 |---|---|---|
@@ -148,7 +209,7 @@ run 3 scouts in parallel: one for the API routes, one for the DB layer, one for 
 
 Watching runs:
 
-- FleetView sits under the editor and lists active runs. `/subagents-fleet` opens the live inspector: browse children, read transcripts, steer, or stop.
+- FleetView sits under the editor and lists active runs. `/subagents-fleet` (or `ctrl+shift+a`, from `pi/extensions/fleet-hotkey.ts`) opens the live inspector: browse children, read transcripts, steer, or stop.
 - Chains usually run async. Ask "show active async runs" to check on them.
 - `/subagents-doctor` checks the setup. `/subagents-guide [topic]` has the built-in docs.
 
@@ -161,7 +222,7 @@ Notes:
 
 ## Claude subagents
 
-The same four roles and chains as Pi, for Claude Code:
+The same four roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent workflows](#subagent-workflows).
 
 | Agent | Model | Tools |
 |---|---|---|
