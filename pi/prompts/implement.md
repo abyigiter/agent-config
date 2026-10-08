@@ -1,10 +1,15 @@
 ---
 description: Full implementation workflow - scout gathers context, planner creates plan, worker implements
 ---
-Use the subagent tool with the chain parameter to execute this workflow:
+Task: $@
 
-1. First, use the "scout" agent to find all code relevant to: $@
-2. Then, use the "planner" agent to create an implementation plan for "$@" using the context from the previous step (use {previous} placeholder)
-3. Finally, use the "worker" agent to implement the plan from the previous step (use {previous} placeholder)
+Launch exactly this workflow: put the block below in your reply as a ```js workflow fenced block and call `subagent({ workflow: true })` in the same reply. Do not write it to a file. Replace TASK with the task above, as a JS string.
 
-Execute this as a chain, passing output between steps via {previous}.
+```js workflow
+const TASK = "<task>";
+const scout = await runs.run("scout", { agent: "scout", task: "Find all code relevant to: " + TASK });
+const plan = await runs.run("plan", { agent: "planner", task: "Create an implementation plan for: " + TASK + "\n\nScout context:\n" + scout.output });
+return runs.run("implement", { agent: "worker", task: "Implement this plan for: " + TASK + "\n\nPlan:\n" + plan.output });
+```
+
+Return the worker's report.
