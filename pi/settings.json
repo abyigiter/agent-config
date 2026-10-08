@@ -38,10 +38,10 @@
   "subagents": {
     "agentOverrides": {
       "scout": {
-        "model": "openrouter/anthropic/claude-haiku-5.5"
+        "model": "openrouter/openai/gpt-6-luna"
       },
       "reviewer": {
-        "model": "openrouter/anthropic/claude-opus-5.5"
+        "model": "openrouter/openai/gpt-6.1-sol"
       },
       "worker": {
         "model": "openrouter/z-ai/glm-5.3-flash:max"
