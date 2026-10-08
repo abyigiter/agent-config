@@ -32,6 +32,20 @@
     "npm:pi-web-access",
     "npm:cc-safety-net",
     "npm:@plannotator/pi-extension",
-    "git:github.com/abyigiter/claude-usage-bar"
-  ]
+    "git:github.com/abyigiter/claude-usage-bar",
+    "npm:pi-subagents"
+  ],
+  "subagents": {
+    "agentOverrides": {
+      "scout": {
+        "model": "openrouter/anthropic/claude-haiku-5.5"
+      },
+      "reviewer": {
+        "model": "openrouter/anthropic/claude-opus-5.5"
+      },
+      "worker": {
+        "model": "openrouter/z-ai/glm-5.3-flash:max"
+      }
+    }
+  }
 }
