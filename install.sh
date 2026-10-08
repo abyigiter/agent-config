@@ -22,6 +22,9 @@ ln -sf "$repo_dir/CLAUDE.md" "$HOME/CLAUDE.md"
 ln -sf "$repo_dir/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 ln -sfn "$repo_dir/SOUL.md" "$HOME/.claude/SOUL.md"
 ln -sfn "$repo_dir/SOUL.md" "$HOME/.codex/SOUL.md"
+mkdir -p "$HOME/.claude/agents" "$HOME/.claude/commands"
+ln -sfn "$repo_dir/.claude/agents/"*.md "$HOME/.claude/agents/"
+ln -sfn "$repo_dir/.claude/commands/"*.md "$HOME/.claude/commands/"
 
 link_skill() {
   local src="$1"
