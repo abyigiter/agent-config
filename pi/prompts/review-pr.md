@@ -4,7 +4,7 @@ description: Review a GitHub PR with subagents. Peer PR -> post a submitted inli
 Review PR: $@
 
 1. Resolve the PR yourself (first integer in the arguments, else `gh pr view --json number` for the current branch). Run `gh api user --jq .login` and `gh pr view <N> --json number,title,url,author,state,isDraft,headRefName,headRefOid,baseRefName,headRepository,headRepositoryOwner`. Stop if the PR is closed or merged. **Self-review** means the author login equals your login.
-2. Set `TMP=$(git rev-parse --show-toplevel)/tmp/review` and run `gh pr diff <N> --color=never > $TMP/pr-<N>.diff`. If `git rev-parse HEAD` is not `headRefOid`, run `git fetch origin pull/<N>/head` and `git worktree add --detach $TMP/pr-<N>-head FETCH_HEAD`; that directory is the PR code. Otherwise the repo root is. Never check out the PR in the user's working tree.
+2. Set `TMP=$(git rev-parse --show-toplevel)/tmp/review`, run `mkdir -p $TMP` and `gh pr diff <N> --color=never > $TMP/pr-<N>.diff`. Always review a clean copy of the PR head: `git fetch origin pull/<N>/head && git worktree add --detach $TMP/pr-<N>-head FETCH_HEAD` (remove a stale one first). That directory is the PR code. Never check out the PR in the user's working tree.
 3. Launch this workflow: put it in your reply as a ```js workflow fenced block and call `subagent({ workflow: true, async: true })` in the same reply. Fill PR (number, title, url, author, headRefOid, owner/repo), DIFF (absolute path) and CODE (absolute path) as JS strings. If the tool says the block is missing, write the script to `$TMP/review-pr-<N>.js` and pass that absolute path as `workflow` instead.
 
 ```js workflow
@@ -16,4 +16,4 @@ return runs.run("review", { agent: "reviewer", task: "Review this PR. Read ~/.ag
 4. When the workflow completes, deliver:
    - **Self-review:** print one copyable ```markdown block with sections Bugs, Design / follow-ups, Nits; clickable refs like `[file.go:42](path/file.go#L42)`; a short rationale per item; a final verdict line. Do NOT post, comment, push, or touch the PR in any way.
    - **Peer review:** follow `~/.agents/skills/pr-comment-review/SKILL.md` steps 4-6 to validate the findings and post one submitted `COMMENT` review.
-5. If you created `$TMP/pr-<N>-head`, remove it with `git worktree remove $TMP/pr-<N>-head`.
+5. Remove the worktree: `git worktree remove $TMP/pr-<N>-head`.

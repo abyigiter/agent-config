@@ -4,7 +4,7 @@ description: Address every review comment on your PR with subagents. Scout colle
 Fix review comments on PR: $@
 
 1. Resolve the PR yourself (first integer in the arguments, else the current branch's PR). Run `gh pr view <N> --json number,title,url,author,state,headRefName,headRefOid,headRepository,headRepositoryOwner`. Stop and ask if the current branch is not `headRefName`, the working tree is dirty, or the PR is closed or merged.
-2. Launch this workflow: put it in your reply as a ```js workflow fenced block and call `subagent({ workflow: true, async: true })` in the same reply. Fill PR (number, url, owner/repo, headRefOid) as a JS string. If the tool says the block is missing, write the script to `$(git rev-parse --show-toplevel)/tmp/review/fix-pr-<N>.js` and pass that absolute path as `workflow` instead.
+2. Launch this workflow: put it in your reply as a ```js workflow fenced block and call `subagent({ workflow: true, async: true })` in the same reply. Fill PR (number, url, owner/repo, headRefOid) as a JS string. If the tool says the block is missing, run `mkdir -p $(git rev-parse --show-toplevel)/tmp/review`, write the script to `tmp/review/fix-pr-<N>.js` there and pass that absolute path as `workflow` instead.
 
 ```js workflow
 const PR = "<metadata>";
@@ -16,5 +16,5 @@ return { checklist: plan.output, report: fix.output };
 ```
 
 3. When the workflow completes: print the checklist, then the worker report.
-4. Reply in-thread on the disagree items only (`gh api -X POST repos/<owner>/<repo>/pulls/<N>/comments -f body=... -F in_reply_to=<id>`). Ask the user about every ask item; do not guess.
+4. Reply on the disagree items only. Inline review comments: in-thread with `gh api -X POST repos/<owner>/<repo>/pulls/<N>/comments -f body=... -F in_reply_to=<id>`. Review bodies and issue comments have no thread: post one `gh pr comment <N>` that quotes each and gives the reply. Ask the user about every ask item; do not guess.
 5. Commit only if the arguments include `commit` (a new follow-up commit, never amend). Push only if they include `push`. Report what landed, what you pushed back on, and what is waiting on the user.
