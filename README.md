@@ -115,6 +115,39 @@ OpenCode picks up skills from `~/.agents/skills` natively, so no extra links. Br
 
 Pi reads skills from `~/.agents/skills` natively too. Its MCPs mirror the OpenCode set from the machine-local `~/.pi/agent/mcp.json` (not in the repo) and read the same token files. OAuth servers sign in with `pi mcp login <name>`.
 
+## Pi subagents
+
+After `./install.sh`, run `/reload` in pi (or start a new session).
+
+| Agent | Model | Tools |
+|---|---|---|
+| `scout` | Haiku 5.5 | read, grep, find, ls, bash |
+| `planner` | Fable 5.1 | read, grep, find, ls |
+| `reviewer` | Opus 5.5 | read, grep, find, ls, bash (read-only) |
+| `worker` | GLM 5.3 Flash `:max` | all |
+
+Chains:
+
+```
+/implement add input validation to the signup handler      # scout -> planner -> worker
+/scout-and-plan migrate auth to OAuth                       # scout -> planner, no edits
+/implement-and-review add retry to the webhook client      # worker -> reviewer -> worker
+```
+
+Single agent or parallel, in plain English:
+
+```
+use scout to find where session tokens are validated
+use reviewer to review my uncommitted changes
+run 3 scouts in parallel: one for the API routes, one for the DB layer, one for the tests
+```
+
+- Each subagent is a separate `pi` process with a fresh context. It only sees the task text (plus `{previous}` output in chains), so write tasks for someone who hasn't read the conversation.
+- `Ctrl+O` expands output, tool calls, and per-agent cost. `Ctrl+C` kills the child processes.
+- Parallel: max 8 tasks, 4 concurrent.
+- Only `~/.pi/agent/agents/` loads by default. A repo's `.pi/agents/` loads only with `agentScope: "both"` (ask for it in the prompt).
+- Agent files are re-read on every call: edit `pi/agents/<name>.md`, no reload needed.
+
 ## Not in this repo
 
 Secrets, tokens, session history, SQLite, caches, and the `local/` overlay.
