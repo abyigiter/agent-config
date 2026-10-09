@@ -29,8 +29,8 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `opencode/opencode.json` | OpenCode via OpenRouter. GLM 5.3 default, Fable planner, DeepSeek implementer. All OpenRouter models in the picker. ClickHouse, Bruin, Lightdash, Allium, Figma (desktop), Google Drive MCPs. Slack off. |
 | `pi/settings.json` | Pi via OpenRouter. GLM 5.3 at high thinking by default, plus GPT-6.1 Sol / 6 Luna / 6 Astra, Grok 4.7, Claude Sonnet 5.5 / Opus 5.5 / Haiku 5.5, DeepSeek V4 Pro, Kimi K3, Qwen 3.8, and Muse Spark 1.3 in the model cycle. MCPs stay in a machine-local `~/.pi/agent/mcp.json`, not in the repo. |
 | `pi/models.json` | Custom OpenRouter model defs Pi doesn't ship yet (Claude Haiku 5.5). |
-| `.claude/agents/`, `.claude/commands/` | Claude Code subagents `scout` (Haiku 5.5), `planner` + `reviewer` (Opus 5.5, high effort), `worker` (Sonnet 5.5), and the same three chain commands. See [Claude subagents](#claude-subagents). |
-| `pi/agents/`, `pi/prompts/` | Subagents via the [`pi-subagents`](https://github.com/nicobailon/pi-subagents) package. Builtin `scout` / `reviewer` / `worker` get model overrides in `pi/settings.json` (`subagents.agentOverrides`); custom `planner` (GPT-6.1 Sol, high) lives in `pi/agents/`. Non-Claude on purpose: Claude roles live in Claude Code. Chains: `/implement`, `/scout-and-plan`, `/implement-and-review`. |
+| `.claude/agents/`, `.claude/commands/` | Claude Code subagents `scout` (Haiku 5.5), `planner` + `reviewer` (Opus 5.5, high effort), `worker` + `pr-fixer` (Sonnet 5.5), and the same three chain commands. See [Claude subagents](#claude-subagents). |
+| `pi/agents/`, `pi/prompts/` | Subagents via the [`pi-subagents`](https://github.com/nicobailon/pi-subagents) package. Builtin `scout` / `reviewer` / `worker` get model overrides in `pi/settings.json` (`subagents.agentOverrides`); custom `planner` (GPT-6.1 Sol, high) and `pr-fixer` (Claude Sonnet 5.5, high) live in `pi/agents/`. Non-Claude on purpose, except `pr-fixer`, so PR fixes behave the same in pi and Claude Code. Chains: `/implement`, `/scout-and-plan`, `/implement-and-review`, `/fix-pr`. |
 | `pi/extensions/*.ts` | Small local Pi extensions, linked into `~/.pi/agent/extensions/`. `fleet-hotkey.ts`: `ctrl+shift+a` opens `/subagents-fleet`. |
 | `pi/themes/` | Soft Catppuccin-Macchiato palette for the Pi TUI (`macchiato`, active by default). |
 
@@ -121,7 +121,7 @@ Pi reads skills from `~/.agents/skills` natively too. Its MCPs mirror the OpenCo
 
 ## Subagent workflows
 
-The parent session drives every chain: it runs one subagent per stage, waits for it to finish, and passes its output into the next stage's task. `scout`, `planner`, and `reviewer` are read-only recon and review; `worker` is the only role that edits files and runs the checks.
+The parent session drives every chain: it runs one subagent per stage, waits for it to finish, and passes its output into the next stage's task. `scout`, `planner`, and `reviewer` are read-only recon and review; `worker` and `pr-fixer` are the only roles that edit files and run the checks.
 
 ### `/implement`
 
@@ -176,6 +176,18 @@ flowchart TB
 
 Sources: [Claude Code](.claude/commands/implement-and-review.md) · [Pi](pi/prompts/implement-and-review.md)
 
+### `/fix-pr`
+
+You describe a fix for your own PR; `pr-fixer` (Sonnet 5.5) makes it on the checked-out PR head. The main session then makes a new follow-up commit (never an amend). It pushes only if you pass `push`. Review comments are not read: that is `/fix-pr-reviews`.
+
+```mermaid
+flowchart LR
+    U(["PR + your fix request"]) --> F["pr-fixer<br/>edit + scoped checks"]
+    F --> C(["main session: follow-up commit, push only on push"])
+```
+
+Sources: [Claude Code](.claude/commands/fix-pr.md) · [Pi](pi/prompts/fix-pr.md)
+
 ## Pi subagents
 
 After `./install.sh`, run `/reload` in pi (or start a new session).
@@ -188,6 +200,7 @@ Chain diagrams: [Subagent workflows](#subagent-workflows).
 | `planner` | GPT-6.1 Sol (high) | `pi/agents/planner.md` (read-only tools) |
 | `reviewer` | GPT-6.1 Sol (high) | builtin + override |
 | `worker` | GLM 5.3 Flash `:max` | builtin + override |
+| `pr-fixer` | Claude Sonnet 5.5 (high) | `pi/agents/pr-fixer.md` (edit tools, used by `/fix-pr`) |
 
 Other builtins (`researcher`, `oracle`, `delegate`, `evidence-auditor`, ...) inherit the session model.
 
@@ -199,6 +212,7 @@ Chains:
 /implement-and-review add retry to the webhook client      # worker -> reviewer -> worker
 /review-pr 42                                              # scout -> reviewer; your PR: markdown only, peer PR: posts review
 /fix-pr-reviews 42 commit                                  # scout -> planner -> worker; replies on disagree threads, commit/push only if asked
+/fix-pr 42 handle nil wallet in transfer push              # pr-fixer edits, main session commits; push only if asked
 ```
 
 Single agent or parallel, in plain English:
@@ -224,7 +238,7 @@ Notes:
 
 ## Claude subagents
 
-The same four roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent workflows](#subagent-workflows).
+The same five roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent workflows](#subagent-workflows).
 
 | Agent | Model | Tools |
 |---|---|---|
@@ -232,6 +246,7 @@ The same four roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent
 | `planner` | Opus 5.5, `effort: high` | Read, Grep, Glob |
 | `reviewer` | Opus 5.5, `effort: high` | Read, Grep, Glob, Bash (read-only) |
 | `worker` | Sonnet 5.5 | all |
+| `pr-fixer` | Sonnet 5.5 | Read, Edit, Write, Grep, Glob, Bash |
 
 ```
 /scout-and-plan migrate auth to OAuth                     # scout -> planner, no edits
@@ -239,6 +254,7 @@ The same four roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent
 /implement-and-review add retry to the webhook client    # worker -> reviewer -> worker (fix pass only if needed)
 /review-pr 42                                            # scout -> reviewer; your PR: markdown only, peer PR: posts review
 /fix-pr-reviews 42 commit                                # scout -> planner -> worker; replies on disagree threads, commit/push only if asked
+/fix-pr 42 handle nil wallet in transfer push            # pr-fixer edits, main session commits; push only if asked
 ```
 
 - The `polygon-core` plugin's `guard-agent-model-pin` hook blocks Agent calls that don't pass `model`. That parameter only takes aliases and overrides the frontmatter, so the commands pass `haiku` / `opus` / `sonnet` explicitly. The frontmatter full IDs still apply when you call an agent directly without the hook.
