@@ -27,7 +27,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `skills/` | How to code, review, debug, and draft Slack |
 | `cursor/rules/` | Cursor rules. ADHD is always on. Wiki schema is globbed to `wiki/**` and `raw/**`. |
 | `opencode/opencode.json` | OpenCode via OpenRouter. GLM 5.3 default, Fable planner, DeepSeek implementer. All OpenRouter models in the picker. ClickHouse, Bruin, Lightdash, Allium, Figma (desktop), Google Drive MCPs. Slack off. |
-| `pi/settings.json` | Pi via OpenRouter. GLM 5.3 at high thinking by default, plus GPT-6.1 Sol / 6 Luna / 6 Astra, Grok 4.7, Claude Sonnet 5.5 / Opus 5.5 / Haiku 5.5, DeepSeek V4 Pro, Kimi K3, Qwen 3.8, and Muse Spark 1.3 in the model cycle. MCPs stay in a machine-local `~/.pi/agent/mcp.json`, not in the repo. |
+| `pi/settings.json` | Pi via OpenRouter. GLM 5.3 Flash Nitro at max thinking by default (plain GLM 5.3 / 5.3 Flash still in the cycle), plus GPT-6.1 Sol / 6 Luna / 6 Astra, Grok 4.7, Claude Sonnet 5.5 / Opus 5.5 / Haiku 5.5, DeepSeek V4 Pro, Kimi K3, Qwen 3.8, and Muse Spark 1.3 in the model cycle. MCPs stay in a machine-local `~/.pi/agent/mcp.json`, not in the repo. |
 | `pi/models.json` | Custom OpenRouter model defs Pi doesn't ship yet (Claude Haiku 5.5). |
 | `.claude/agents/`, `.claude/commands/` | Claude Code subagents `scout` (Haiku 5.5), `planner` + `reviewer` (Opus 5.5, high effort), `worker` + `pr-fixer` (Sonnet 5.5), and the same three chain commands. See [Claude subagents](#claude-subagents). |
 | `pi/agents/`, `pi/prompts/` | Subagents via the [`pi-subagents`](https://github.com/nicobailon/pi-subagents) package. Builtin `scout` / `reviewer` / `worker` get model overrides in `pi/settings.json` (`subagents.agentOverrides`); custom `planner` (GPT-6.1 Sol, high) and `pr-fixer` (Claude Sonnet 5.5, high) live in `pi/agents/`. Non-Claude on purpose, except `pr-fixer`, so PR fixes behave the same in pi and Claude Code. Chains: `/implement`, `/scout-and-plan`, `/implement-and-review`, `/fix-pr`. |
@@ -199,7 +199,7 @@ Chain diagrams: [Subagent workflows](#subagent-workflows).
 | `scout` | GPT-6 Luna (low thinking) | `pi-subagents` builtin, model override in `pi/settings.json` |
 | `planner` | GPT-6.1 Sol (high) | `pi/agents/planner.md` (read-only tools) |
 | `reviewer` | GPT-6.1 Sol (high) | builtin + override |
-| `worker` | GLM 5.3 Flash `:max` | builtin + override |
+| `worker` | GLM 5.3 Flash Nitro `:nitro:max` | builtin + override |
 | `pr-fixer` | Claude Sonnet 5.5 (high) | `pi/agents/pr-fixer.md` (edit tools, used by `/fix-pr`) |
 
 Other builtins (`researcher`, `oracle`, `delegate`, `evidence-auditor`, ...) inherit the session model.

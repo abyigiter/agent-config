@@ -1,17 +1,19 @@
 {
   "theme": "macchiato",
   "defaultProvider": "openrouter",
-  "defaultModel": "z-ai/glm-5.3-flash",
+  "defaultModel": "z-ai/glm-5.3-flash:nitro",
   "defaultThinkingLevel": "high",
   "modelThinkingLevels": {
     "openrouter/anthropic/claude-haiku-5.5": "xhigh",
     "openrouter/z-ai/glm-5.3-flash": "max",
+    "openrouter/z-ai/glm-5.3-flash:nitro": "max",
     "openrouter/deepseek/deepseek-v4.1-flash": "max",
     "openrouter/openai/gpt-6-luna": "max"
   },
   "enabledModels": [
     "z-ai/glm-5.3",
     "z-ai/glm-5.3-flash",
+    "z-ai/glm-5.3-flash:nitro",
     "anthropic/claude-fable-5.1",
     "deepseek/deepseek-v4.1-flash",
     "openai/gpt-6.1-sol",
@@ -44,7 +46,7 @@
         "model": "openrouter/openai/gpt-6.1-sol"
       },
       "worker": {
-        "model": "openrouter/z-ai/glm-5.3-flash:max"
+        "model": "openrouter/z-ai/glm-5.3-flash:nitro:max"
       }
     }
   }
