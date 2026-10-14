@@ -36,6 +36,10 @@ Off only if I say "stop adhd mode" or "normal mode".
 - Before review follow-ups, read the existing PR conversation and threads. Don't reconstruct asks from the diff. Comments from my own GitHub user (`abyigiter`) are context, not reviewer feedback.
 - Reviews are always a copyable ```markdown``` block: priority sections (Bugs, Design / follow-ups, Nits), clickable file refs (`[file.go:42](path/file.go#L42)`), short rationale per item. No prose-only reviews.
 
+## Plan mode
+
+- Always use `scout` subagents in plan mode, in any repo and any task. Scouts gather context first (parallel, one per area), then plan from their output, via `planner` when available. No wide file reads in the main session before scouts return.
+
 ## Code style
 
 - Least code that solves the problem: minimal diffs, no opportunistic refactors, no speculative abstractions, no designing for hypothetical futures. Details: `~/.agents/skills/less-code/SKILL.md`.
