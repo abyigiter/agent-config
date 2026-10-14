@@ -42,6 +42,7 @@ Do not start implementation until he says go (or "implement", "ship it", "do it"
 
 While planning:
 
+- Always run `scout` subagents first (parallel, one per area: this repo, each sibling repo, schema/contracts). Plan from their compressed context, not from your own wide reads. Then hand the scout output to `planner` if available.
 - Trace the user journey (entry, data, permissions, empty/error/success).
 - Check meeting notes if this sounds like a named decision.
 - Read the nearest existing owner in code. Do not invent a parallel path.
