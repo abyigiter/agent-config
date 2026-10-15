@@ -49,6 +49,7 @@ skills=(
   message
   performance
   pr-comment-review
+  thermo-nuclear-code-quality-review
   react
   vercel-react-best-practices
   web-design-guidelines

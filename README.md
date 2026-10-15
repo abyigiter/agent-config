@@ -77,6 +77,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `web-design-guidelines` | UI/a11y review |
 | `performance` | Core Web Vitals |
 | `agent-browser` | Browser CLI. Prefer over Playwright |
+| `thermo-nuclear-code-quality-review` | Extremely strict maintainability bar for the review-pr workflow |
 
 ## Local overlay
 
