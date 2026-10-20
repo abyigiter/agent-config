@@ -1,9 +1,10 @@
 {
   "theme": "macchiato",
   "defaultProvider": "openrouter",
-  "defaultModel": "z-ai/glm-5.3-flash:nitro",
+  "defaultModel": "x-ai/grok-4.7",
   "defaultThinkingLevel": "high",
   "modelThinkingLevels": {
+    "openrouter/x-ai/grok-4.7": "high",
     "openrouter/anthropic/claude-haiku-5.5": "xhigh",
     "openrouter/z-ai/glm-5.3-flash": "max",
     "openrouter/z-ai/glm-5.3-flash:nitro": "max",
