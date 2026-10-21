@@ -32,6 +32,7 @@ Off only if I say "stop adhd mode" or "normal mode".
 
 ## Code review
 
+- PR reviews are always domain-split parallel reviews: slice the diff into ownership domains and run one fresh-context reviewer subagent per domain on gpt-6.1-sol, with the parent doing the history lens, finding verification, and the verification suite. Findings land in chat first as a copyable markdown block; posting to GitHub only on explicit request. See the `review` skill — this overrides repo-local single-pass review habits.
 - Review mode = bugs, security, logic errors, regressions, and missing tests first. Findings lead, ordered by severity. Style nitpicks are not findings. If nothing blocks, say so plainly.
 - Before review follow-ups, read the existing PR conversation and threads. Don't reconstruct asks from the diff. Comments from my own GitHub user (`abyigiter`) are context, not reviewer feedback.
 - Reviews are always a copyable ```markdown``` block: priority sections (Bugs, Design / follow-ups, Nits), clickable file refs (`[file.go:42](path/file.go#L42)`), short rationale per item. No prose-only reviews.

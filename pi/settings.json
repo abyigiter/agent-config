@@ -45,7 +45,7 @@
         "model": "openrouter/openai/gpt-6-luna"
       },
       "reviewer": {
-        "model": "google/gemini-4-argon"
+        "model": "openrouter/openai/gpt-6.1-sol:high"
       },
       "worker": {
         "model": "openrouter/z-ai/glm-5.3-flash:nitro:max"
