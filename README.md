@@ -199,7 +199,7 @@ Chain diagrams: [Subagent workflows](#subagent-workflows).
 |---|---|---|
 | `scout` | GPT-6 Luna (low thinking) | `pi-subagents` builtin, model override in `pi/settings.json` |
 | `planner` | Gemini 4 Argon (high) | `pi/agents/planner.md` (read-only tools) |
-| `reviewer` | Gemini 4 Argon | builtin + override |
+| `reviewer` | GPT-6.1 Sol | builtin + override |
 | `worker` | GLM 5.3 Flash Nitro `:nitro:max` | builtin + override |
 | `pr-fixer` | Claude Sonnet 5.5 (high) | `pi/agents/pr-fixer.md` (edit tools, used by `/fix-pr`) |
 
@@ -234,7 +234,7 @@ Notes:
 
 - Each subagent is a separate `pi` process with a fresh context. Write tasks for someone who hasn't read the conversation.
 - `pi-subagents` loads a repo's `.pi/agents/` by default (`agentScope: "both"`), and project agents win name collisions. Only run it in repos you trust.
-- To change a builtin's model, edit `subagents.agentOverrides` in `pi/settings.json`. Don't copy a builtin into `pi/agents/`, because a same-name file replaces the bundled definition wholesale. Exception: the `/review-pr` workflow pins its reviewer to `google/gemini-4-argon` per-run in `pi/prompts/review-pr.md`, so PR review stays on argon even if the override changes.
+- To change a builtin's model, edit `subagents.agentOverrides` in `pi/settings.json`. Don't copy a builtin into `pi/agents/`, because a same-name file replaces the bundled definition wholesale. Exception: the `/review-pr` workflow pins its reviewer to `openrouter/openai/gpt-6.1-sol` per-run in `pi/prompts/review-pr.md`, so PR review stays on GPT-6.1 Sol even if the override changes.
 - The chain prompts embed a `js workflow` script (the `pi-subagents` workflow API). The legacy `chain` parameter is no longer supported.
 
 ## Claude subagents
