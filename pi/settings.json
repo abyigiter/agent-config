@@ -1,7 +1,7 @@
 {
   "theme": "macchiato",
   "defaultProvider": "openrouter",
-  "defaultModel": "x-ai/grok-4.7",
+  "defaultModel": "z-ai/glm-5.3-flash:nitro",
   "defaultThinkingLevel": "high",
   "modelThinkingLevels": {
     "openrouter/x-ai/grok-4.7": "high",
@@ -31,7 +31,7 @@
     "meta/muse-spark-1.3",
     "google/gemini-4-argon"
   ],
-  "lastChangelogVersion": "1.0.0",
+  "lastChangelogVersion": "1.4.0",
   "packages": [
     "npm:pi-web-access",
     "npm:cc-safety-net",
