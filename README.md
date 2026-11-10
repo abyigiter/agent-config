@@ -134,6 +134,8 @@ flowchart LR
     W --> O(["worker report"])
 ```
 
+Claude Code adds a final fast review: `reviewer` (Opus 5.5, medium) reads the diff and reports. It does not apply fixes.
+
 Sources: [Claude Code](.claude/commands/implement.md) · [Pi](pi/prompts/implement.md)
 
 ### `/scout-and-plan`
