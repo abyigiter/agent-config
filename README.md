@@ -286,6 +286,9 @@ The same five roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent
 /review-pr 42                                            # scout -> reviewer; your PR: markdown only, peer PR: posts review
 /fix-pr-reviews 42 commit                                # scout -> planner -> worker; replies on disagree threads, commit/push only if asked
 /fix-pr 42 handle nil wallet in transfer push            # pr-fixer edits, main session commits; push only if asked
+/debug 502 on POST /transfers after deploy             # scout -> planner (ranked hypotheses) -> worker (check, then fix)
+/test-gap                                                # reviewer finds untested changes -> worker writes tests only
+/rollout-check apps/omsx                                 # scout -> reviewer, read-only dev/stg drift and rollout risk
 ```
 
 - The `polygon-core` plugin's `guard-agent-model-pin` hook blocks Agent calls that don't pass `model`. That parameter only takes aliases and overrides the frontmatter, so the commands pass `haiku` / `opus` / `sonnet` explicitly. The frontmatter full IDs still apply when you call an agent directly without the hook.
