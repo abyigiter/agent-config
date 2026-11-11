@@ -10,11 +10,17 @@ description: Forced PR review flow for every GitHub PR review in any repo. Resol
 1. Every PR review runs as a domain split with parallel fresh-context reviewer subagents.
    Never a single-pass whole-diff review. Merge adjacent domains when small; one lane is
    allowed only when the whole diff is trivially one domain (docs-only, single file).
-2. Reviewer children run on `openrouter/openai/gpt-6.1-sol:high` (override via this skill's
+2. Big PRs (more than ~15 files or ~800 changed lines, or touching 3+ areas) must fan out one
+   subagent per area of change (backend, schema/codegen, frontend, infra, docs/scripts), all
+   launched in parallel in a single message, each reviewing only its slice against full head
+   files. The parent merges, dedupes, and dispositions their findings. Small PRs may use
+   fewer lanes per rule 1.
+3. Reviewer children run on `openrouter/openai/gpt-6.1-sol:high` (override via this skill's
    settings entry, never per-run guesswork).
-3. Findings land in chat FIRST as one copyable ```markdown``` block. Posting to GitHub happens
+4. Findings land in chat FIRST as one copyable ```markdown``` block. Posting to GitHub happens
    only on an explicit request ("post"), never automatically.
-4. Every finding is verified against source before it reaches the report. No unverified
+5. Never run tests, lint, typecheck, or codegen checks. CI covers them.
+6. Every finding is verified against source before it reaches the report. No unverified
    severities, no findings the reporter cannot point to in source.
 
 ## Flow
@@ -54,14 +60,11 @@ description: Forced PR review flow for every GitHub PR review in any repo. Resol
 8. **Disposition**: verify every child finding against source (grep/read the worktree), then
    classify: valid blocker, valid non-blocker, stale, invalid, speculative. Drop or downgrade
    with evidence; never pass a finding through unverified.
-9. **Verification**: repo Make targets only (never raw `go test`/`pnpm vitest`): codegen
-   clean-tree check, focused tests for touched packages, typecheck, lint, translation checks
-   where applicable. Worktree needs setup (`make worktree-setup` / equivalent) before tests.
-   State plainly what could not be verified and why.
+9. **No test/lint/typecheck runs**: CI owns tests, lint, typecheck, codegen checks. Code review only. Do not run them, do not set up the worktree for them, and do not report them as "not verified". Verify findings by reading source and history only.
 10. **Deliver**: one copyable ```markdown``` block — header with verdict, `## Bugs`,
     `## Design / follow-ups`, `## Nits` (clickable `[file.go:42](path/file.go#L42)` refs
-    anchored in changed hunks, short rationale per item), `## Verified` (evidence list),
-    `## Per-domain coverage` (one line per lane), `## Not verified` (residuals). Then stop
+    anchored in changed hunks, short rationale per item), `## Verified` (source evidence for findings),
+    `## Per-domain coverage` (one line per lane), `## Not verified` (review-scope residuals only, never tests/lint). Then stop
     and await instruction.
 11. **Post on request**: GitHub reviews API with `commit_id` = head SHA; event
     `REQUEST_CHANGES` when blockers exist, `APPROVE` when clean, `COMMENT` otherwise. Inline
