@@ -30,7 +30,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `pi/settings.json` | Pi via OpenRouter. GLM 5.3 Flash Nitro at max thinking by default (plain GLM 5.3 / 5.3 Flash still in the cycle), plus GPT-6.1 Sol / 6 Luna / 6 Astra, Grok 4.7, Claude Sonnet 5.5 / Opus 5.5 / Haiku 5.5, DeepSeek V4 Pro, Kimi K3, Qwen 3.8, Muse Spark 1.3, and Gemini 4 Argon in the model cycle. MCPs stay in a machine-local `~/.pi/agent/mcp.json`, not in the repo. |
 | `pi/models.json` | Custom OpenRouter model defs Pi doesn't ship yet (Claude Haiku 5.5). |
 | `.claude/agents/`, `.claude/commands/` | Claude Code subagents `scout` (Haiku 5.5), `planner` (Fable 5.2 default, `/implement` picks Fable or Opus per task) + `reviewer` (Opus 5.5, high effort), `worker` + `pr-fixer` (Sonnet 5.5; `/implement` runs `worker` on Haiku at max effort), and the same three chain commands. See [Claude subagents](#claude-subagents). |
-| `pi/agents/`, `pi/prompts/` | Subagents via the [`pi-subagents`](https://github.com/nicobailon/pi-subagents) package. Builtin `scout` / `reviewer` / `worker` get model overrides in `pi/settings.json` (`subagents.agentOverrides`); custom `planner` (Gemini 4 Argon, high) and `pr-fixer` (Claude Sonnet 5.5, high) live in `pi/agents/`. Non-Claude on purpose, except `pr-fixer`, so PR fixes behave the same in pi and Claude Code. Chains: `/implement`, `/scout-and-plan`, `/implement-and-review`, `/fix-pr`. |
+| `pi/agents/`, `pi/prompts/` | Subagents via the [`pi-subagents`](https://github.com/nicobailon/pi-subagents) package. Builtin `scout` / `reviewer` / `worker` get model overrides in `pi/settings.json` (`subagents.agentOverrides`); custom `planner` (Gemini 4 Argon, high) and `pr-fixer` (Claude Sonnet 5.5, high) live in `pi/agents/`. Non-Claude on purpose, except `pr-fixer`, so PR fixes behave the same in pi and Claude Code. Chains: `/implement`, `/scout-and-plan`, `/implement-and-review`, `/fix-pr`, `/debug`, `/test-gap`, `/rollout-check`. |
 | `pi/extensions/*.ts` | Small local Pi extensions, linked into `~/.pi/agent/extensions/`. `fleet-hotkey.ts`: `ctrl+shift+a` opens `/subagents-fleet`. |
 | `pi/themes/` | Soft Catppuccin-Macchiato palette for the Pi TUI (`macchiato`, active by default). |
 
@@ -191,6 +191,34 @@ flowchart LR
 
 Sources: [Claude Code](.claude/commands/fix-pr.md) · [Pi](pi/prompts/fix-pr.md)
 
+### `/debug`, `/test-gap`, `/rollout-check`
+
+Both platforms. The Pi versions use the same stages with the Pi model overrides.
+
+```mermaid
+flowchart LR
+    subgraph D["/debug"]
+        direction LR
+        D1(["symptom"]) --> D2["scout<br/>trace code path"]
+        D2 --> D3["planner<br/>ranked hypotheses + checks"]
+        D3 --> D4["worker<br/>run checks, fix confirmed cause"]
+    end
+    subgraph T["/test-gap"]
+        direction LR
+        T1(["current diff"]) --> T2["reviewer<br/>untested behavior"]
+        T2 --> T3["worker<br/>tests only"]
+    end
+    subgraph R["/rollout-check"]
+        direction LR
+        R1(["manifest diff"]) --> R2["scout<br/>manifests per env"]
+        R2 --> R3["reviewer<br/>drift + rollout risk"]
+    end
+```
+
+`/debug` edits nothing if no hypothesis is confirmed. `/test-gap` never edits production code. `/rollout-check` is read-only end to end.
+
+Sources: debug ([Claude Code](.claude/commands/debug.md) · [Pi](pi/prompts/debug.md)) · test-gap ([Claude Code](.claude/commands/test-gap.md) · [Pi](pi/prompts/test-gap.md)) · rollout-check ([Claude Code](.claude/commands/rollout-check.md) · [Pi](pi/prompts/rollout-check.md))
+
 ## Pi subagents
 
 After `./install.sh`, run `/reload` in pi (or start a new session).
@@ -258,6 +286,9 @@ The same five roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent
 /review-pr 42                                            # scout -> reviewer; your PR: markdown only, peer PR: posts review
 /fix-pr-reviews 42 commit                                # scout -> planner -> worker; replies on disagree threads, commit/push only if asked
 /fix-pr 42 handle nil wallet in transfer push            # pr-fixer edits, main session commits; push only if asked
+/debug 502 on POST /transfers after deploy             # scout -> planner (ranked hypotheses) -> worker (check, then fix)
+/test-gap                                                # reviewer finds untested changes -> worker writes tests only
+/rollout-check apps/omsx                                 # scout -> reviewer, read-only dev/stg drift and rollout risk
 ```
 
 - The `polygon-core` plugin's `guard-agent-model-pin` hook blocks Agent calls that don't pass `model`. That parameter only takes aliases and overrides the frontmatter, so the commands pass `haiku` / `opus` / `sonnet` explicitly. The frontmatter full IDs still apply when you call an agent directly without the hook.
