@@ -14,7 +14,8 @@ description: Forced PR review flow for every GitHub PR review in any repo. Resol
    settings entry, never per-run guesswork).
 3. Findings land in chat FIRST as one copyable ```markdown``` block. Posting to GitHub happens
    only on an explicit request ("post"), never automatically.
-4. Every finding is verified against source before it reaches the report. No unverified
+4. Never run tests, lint, typecheck, or codegen checks. CI covers them.
+5. Every finding is verified against source before it reaches the report. No unverified
    severities, no findings the reporter cannot point to in source.
 
 ## Flow
@@ -54,14 +55,11 @@ description: Forced PR review flow for every GitHub PR review in any repo. Resol
 8. **Disposition**: verify every child finding against source (grep/read the worktree), then
    classify: valid blocker, valid non-blocker, stale, invalid, speculative. Drop or downgrade
    with evidence; never pass a finding through unverified.
-9. **Verification**: repo Make targets only (never raw `go test`/`pnpm vitest`): codegen
-   clean-tree check, focused tests for touched packages, typecheck, lint, translation checks
-   where applicable. Worktree needs setup (`make worktree-setup` / equivalent) before tests.
-   State plainly what could not be verified and why.
+9. **No test/lint/typecheck runs**: CI owns tests, lint, typecheck, codegen checks. Code review only. Do not run them, do not set up the worktree for them, and do not report them as "not verified". Verify findings by reading source and history only.
 10. **Deliver**: one copyable ```markdown``` block — header with verdict, `## Bugs`,
     `## Design / follow-ups`, `## Nits` (clickable `[file.go:42](path/file.go#L42)` refs
-    anchored in changed hunks, short rationale per item), `## Verified` (evidence list),
-    `## Per-domain coverage` (one line per lane), `## Not verified` (residuals). Then stop
+    anchored in changed hunks, short rationale per item), `## Verified` (source evidence for findings),
+    `## Per-domain coverage` (one line per lane), `## Not verified` (review-scope residuals only, never tests/lint). Then stop
     and await instruction.
 11. **Post on request**: GitHub reviews API with `commit_id` = head SHA; event
     `REQUEST_CHANGES` when blockers exist, `APPROVE` when clean, `COMMENT` otherwise. Inline
