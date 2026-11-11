@@ -10,12 +10,17 @@ description: Forced PR review flow for every GitHub PR review in any repo. Resol
 1. Every PR review runs as a domain split with parallel fresh-context reviewer subagents.
    Never a single-pass whole-diff review. Merge adjacent domains when small; one lane is
    allowed only when the whole diff is trivially one domain (docs-only, single file).
-2. Reviewer children run on `openrouter/openai/gpt-6.1-sol:high` (override via this skill's
+2. Big PRs (more than ~15 files or ~800 changed lines, or touching 3+ areas) must fan out one
+   subagent per area of change (backend, schema/codegen, frontend, infra, docs/scripts), all
+   launched in parallel in a single message, each reviewing only its slice against full head
+   files. The parent merges, dedupes, and dispositions their findings. Small PRs may use
+   fewer lanes per rule 1.
+3. Reviewer children run on `openrouter/openai/gpt-6.1-sol:high` (override via this skill's
    settings entry, never per-run guesswork).
-3. Findings land in chat FIRST as one copyable ```markdown``` block. Posting to GitHub happens
+4. Findings land in chat FIRST as one copyable ```markdown``` block. Posting to GitHub happens
    only on an explicit request ("post"), never automatically.
-4. Never run tests, lint, typecheck, or codegen checks. CI covers them.
-5. Every finding is verified against source before it reaches the report. No unverified
+5. Never run tests, lint, typecheck, or codegen checks. CI covers them.
+6. Every finding is verified against source before it reaches the report. No unverified
    severities, no findings the reporter cannot point to in source.
 
 ## Flow
