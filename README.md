@@ -191,6 +191,34 @@ flowchart LR
 
 Sources: [Claude Code](.claude/commands/fix-pr.md) · [Pi](pi/prompts/fix-pr.md)
 
+### `/debug`, `/test-gap`, `/rollout-check`
+
+Claude Code only, no Pi versions.
+
+```mermaid
+flowchart LR
+    subgraph D["/debug"]
+        direction LR
+        D1(["symptom"]) --> D2["scout<br/>trace code path"]
+        D2 --> D3["planner<br/>ranked hypotheses + checks"]
+        D3 --> D4["worker<br/>run checks, fix confirmed cause"]
+    end
+    subgraph T["/test-gap"]
+        direction LR
+        T1(["current diff"]) --> T2["reviewer<br/>untested behavior"]
+        T2 --> T3["worker<br/>tests only"]
+    end
+    subgraph R["/rollout-check"]
+        direction LR
+        R1(["manifest diff"]) --> R2["scout<br/>manifests per env"]
+        R2 --> R3["reviewer<br/>drift + rollout risk"]
+    end
+```
+
+`/debug` edits nothing if no hypothesis is confirmed. `/test-gap` never edits production code. `/rollout-check` is read-only end to end.
+
+Sources: [debug](.claude/commands/debug.md) · [test-gap](.claude/commands/test-gap.md) · [rollout-check](.claude/commands/rollout-check.md)
+
 ## Pi subagents
 
 After `./install.sh`, run `/reload` in pi (or start a new session).
