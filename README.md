@@ -134,7 +134,7 @@ flowchart LR
     W --> O(["worker report"])
 ```
 
-Claude Code differs: the session picks the `planner` model per task (Fable for large or ambiguous work, Opus for small or scoped work), `worker` runs on Haiku at max effort through the Agent tool (no Pi), and a final fast review runs: `reviewer` (Opus 5.5, medium) reads the diff and reports. It does not apply fixes.
+Claude Code differs: the session picks the `planner` model per task (Fable for large or ambiguous work, Opus for small or scoped work), `worker` is Grok 4.7 at medium effort, run through the Pi CLI (`pi -p`) since the Agent tool can't pick Grok; Pi's `/implement` pins the same model on the worker run, and a final fast review runs: `reviewer` (Opus 5.5, medium) reads the diff and reports. It does not apply fixes.
 
 Sources: [Claude Code](.claude/commands/implement.md) · [Pi](pi/prompts/implement.md)
 
@@ -276,7 +276,7 @@ The same five roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent
 | `scout` | Haiku 5.5 | Read, Grep, Glob, Bash (read-only) |
 | `planner` | Fable 5.2, `effort: medium` (`/implement` overrides with Fable or Opus per task) | Read, Grep, Glob |
 | `reviewer` | Opus 5.5, `effort: high` | Read, Grep, Glob, Bash (read-only) |
-| `worker` | Sonnet 5.5 (`/implement` overrides with Haiku, `effort: max`) | all |
+| `worker` | Sonnet 5.5 (`/implement` runs Grok 4.7 medium via Pi instead) | all |
 | `pr-fixer` | Sonnet 5.5 | Read, Edit, Write, Grep, Glob, Bash |
 
 ```

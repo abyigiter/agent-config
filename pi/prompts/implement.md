@@ -1,5 +1,5 @@
 ---
-description: Full implementation workflow - scout gathers context, planner creates plan, worker implements
+description: Full implementation workflow - scout gathers context, planner creates plan, worker (Grok 4.7 medium) implements
 ---
 Task: $@
 
@@ -9,7 +9,7 @@ Launch exactly this workflow: put the block below in your reply as a ```js workf
 const TASK = "<task>";
 const scout = await runs.run("scout", { agent: "scout", task: "Find all code relevant to: " + TASK });
 const plan = await runs.run("plan", { agent: "planner", task: "Create an implementation plan for: " + TASK + "\n\nScout context:\n" + scout.output });
-return runs.run("implement", { agent: "worker", task: "Implement this plan for: " + TASK + "\n\nPlan:\n" + plan.output });
+return runs.run("implement", { agent: "worker", model: "openrouter/x-ai/grok-4.7:medium", task: "Implement this plan for: " + TASK + "\n\nPlan:\n" + plan.output });
 ```
 
 Return the worker's report.
