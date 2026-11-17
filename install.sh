@@ -42,6 +42,7 @@ skills=(
   development
   fix-pr-comments
   go
+  grilling
   handoff
   adhd-output
   implement-feature

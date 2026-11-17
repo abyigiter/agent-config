@@ -59,6 +59,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 |---|---|
 | `implement-feature` | Plan mode (scout subagents gather context first), then the full slice. |
 | `writing-design-proposals` | An RFC a human can actually follow. |
+| `grilling` | Interview loop that stress-tests a plan. `/implement` runs it before the planner. From mattpocock/skills. |
 | `handoff` | Compact this chat for the next agent. You have to ask. |
 
 **Talk to humans**

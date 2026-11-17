@@ -5,8 +5,9 @@ argument-hint: <task>
 Run this as a subagent chain. Pass `model` on every Agent call: `scout` -> `haiku`, `reviewer` -> `opus`. For `planner`, you pick per task: `fable` for large, ambiguous, cross-cutting, or architecture-heavy work; `opus` for small or well-scoped work. State the pick and why in one line before calling it.
 
 1. Use the `scout` subagent to find all code relevant to: $ARGUMENTS
-2. Use the `planner` subagent to create an implementation plan for "$ARGUMENTS". Pass it the scout's full output and the original request.
-3. Implement the plan with Grok 4.7 medium through Pi, not the Agent tool. Write the original request and the planner's full plan verbatim to a scratchpad file, then run `pi --provider openrouter --model x-ai/grok-4.7:medium -p "Implement the plan in <file> for: $ARGUMENTS. Edit files, run the repo's scoped checks (Makefile first), do not commit or push."` in the repo root (foreground, timeout 600000, or `run_in_background` if long). Then check `git status` / `git diff --stat` to confirm the edits landed.
-4. Use the `reviewer` subagent for a fast review of the resulting diff against "$ARGUMENTS". Pass `model: opus` and `effort: medium`. Pass it the Pi run's output. Report only; do not apply fixes.
+2. Load the `grilling` skill in this session and grill me on "$ARGUMENTS", using the scout's output for facts. Skip only if the task is a trivial, unambiguous one-liner. Do not proceed until I confirm shared understanding.
+3. Use the `planner` subagent to create an implementation plan for "$ARGUMENTS". Pass it the scout's full output, the original request, and the settled decisions from the grilling.
+4. Implement the plan with Grok 4.7 medium through Pi, not the Agent tool. Write the original request and the planner's full plan verbatim to a scratchpad file, then run `pi --provider openrouter --model x-ai/grok-4.7:medium -p "Implement the plan in <file> for: $ARGUMENTS. Edit files, run the repo's scoped checks (Makefile first), do not commit or push."` in the repo root (foreground, timeout 600000, or `run_in_background` if long). Then check `git status` / `git diff --stat` to confirm the edits landed.
+5. Use the `reviewer` subagent for a fast review of the resulting diff against "$ARGUMENTS". Pass `model: opus` and `effort: medium`. Pass it the Pi run's output. Report only; do not apply fixes.
 
 Return Pi's report, the diff stat, and the reviewer's verdict.
