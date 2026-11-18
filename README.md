@@ -59,7 +59,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 |---|---|
 | `implement-feature` | Plan mode (scout subagents gather context first), then the full slice. |
 | `writing-design-proposals` | An RFC a human can actually follow. |
-| `grilling` | Interview loop that stress-tests a plan. `/implement` runs it before the planner. From mattpocock/skills. |
+| `grilling` | Interview loop that stress-tests a plan. `/implement` classifies the task first and runs it only when the task is thin. From mattpocock/skills. |
 | `handoff` | Compact this chat for the next agent. You have to ask. |
 
 **Talk to humans**
@@ -135,6 +135,8 @@ flowchart LR
     W --> O(["worker report"])
 ```
 
+Before the planner, the session classifies the task. Clear goal, scope, and done-criteria: it prints `Classifier: ready` and moves on. Thin: it runs the `grilling` skill on the open decisions only. The planner always writes acceptance criteria, and the reviewer sees only the task and those criteria, never the worker's output.
+
 Claude Code differs: the session picks the `planner` model per task (Fable for large or ambiguous work, Opus for small or scoped work), `worker` is Grok 4.7 at medium effort, run through the Pi CLI (`pi -p`) since the Agent tool can't pick Grok; Pi's `/implement` pins the same model on the worker run, and a final fast review runs: `reviewer` (Opus 5.5, medium) reads the diff and reports. It does not apply fixes.
 
 Sources: [Claude Code](.claude/commands/implement.md) · [Pi](pi/prompts/implement.md)
@@ -154,7 +156,7 @@ Sources: [Claude Code](.claude/commands/scout-and-plan.md) · [Pi](pi/prompts/sc
 
 ### `/implement-and-review`
 
-The fix stage differs by platform. Claude Code only runs the fix worker when the reviewer flags Bugs or Design issues. Pi always runs it and tells it to change nothing when the verdict is OK with no findings. The reviewer runs once either way.
+The fix stage differs by platform. Claude Code only runs the fix worker when the reviewer flags Bugs or Design issues. Pi always runs it and tells it to change nothing when the verdict is OK with no findings. The reviewer is blind: it gets the task and the diff, never the worker's report. A BLOCK verdict triggers a fix then a re-review, capped at 2 fix/review cycles, then it stops and asks you.
 
 ```mermaid
 flowchart TB

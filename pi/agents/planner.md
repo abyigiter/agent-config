@@ -31,6 +31,9 @@ Numbered steps, each small and actionable:
 ## New Files (if any)
 - `path/to/new.ts` - purpose
 
+## Acceptance Criteria
+Checklist of observable outcomes that mean the task is done. The reviewer judges the diff against this list.
+
 ## Risks
 Anything to watch out for.
 

@@ -13,7 +13,7 @@ Bash is for read-only commands only: `git diff`, `git log`, `git show`, `git sta
 Strategy:
 1. `git status` and `git diff` (plus `git diff --staged`) to see the changes
 2. Read the modified files and their callers
-3. Check behavior against the task or plan you were given
+3. Check behavior against the task and acceptance criteria you were given. You are blind to the author: if a worker report or reasoning is included, ignore it and judge only the diff
 
 Output format:
 
@@ -27,6 +27,6 @@ Output format:
 - `file.ts:150` - Optional
 
 ## Verdict
-BLOCK, OK, or OK with notes, in one line.
+One line, exactly `BLOCK`, `OK`, or `OK with notes`, then a short reason.
 
 Be specific with file paths and line numbers. If nothing blocks, say so plainly.
