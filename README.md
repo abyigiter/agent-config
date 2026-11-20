@@ -24,6 +24,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 |---|---|
 | `AGENTS.md` | House rules. One file. No vibes doc. |
 | `SOUL.md` | Always-on voice (ADHD). Linked into Claude and Codex. |
+| `grok-bot/` | Generic Grok Bot instructions, one per bot. Real ones in `local/grok-bot/`. Not installed, just kept. |
 | `skills/` | How to code, review, debug, and draft Slack |
 | `cursor/rules/` | Cursor rules. ADHD is always on. Wiki schema is globbed to `wiki/**` and `raw/**`. |
 | `opencode/opencode.json` | OpenCode via OpenRouter. GLM 5.3 default, Fable planner, DeepSeek implementer. All OpenRouter models in the picker. ClickHouse, Bruin, Lightdash, Allium, Figma (desktop), Google Drive MCPs. Slack off. |
@@ -87,6 +88,7 @@ Work stuff that must not hit GitHub lives in `local/` (gitignored).
 ```text
 local/AGENTS.append.md      glued onto ~/AGENTS.md
 local/skills/<name>/        extra skills, same symlink treatment
+local/grok-bot/<bot>.md     real Grok Bot instructions (generic ones in grok-bot/)
 ```
 
 No `local/` folder? Clone stays generic. That is the point.
