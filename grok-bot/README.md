@@ -10,11 +10,8 @@ Behavior, voice, safety rules, and workflows are the real ones. Only identifiers
 | `reviewer.md` | PR reviews, drafts the GitHub review |
 | `bug-watcher.md` | Bug reports and prod alerts |
 | `data-engineer.md` | Data repo, pipelines, ClickHouse / Lightdash / Bruin |
-| `chief-of-staff.md` | Daily brief and weekly view |
-| `meeting-prep.md` | Meeting one-pagers and notes |
-| `standup.md` | Daily standup draft |
-| `weekly-report.md` | Friday report draft |
-| `sena.md` | Default description, nothing custom |
+| `chief-of-staff.md` | Daily brief, daily standup draft, meeting prep and notes, Friday weekly report |
+| `alfred.md` | Default description, nothing custom |
 
 ## Placeholders
 
@@ -36,12 +33,12 @@ Behavior, voice, safety rules, and workflows are the real ones. Only identifiers
 | `<BUGS_CHANNEL>`, `<ALERTS_CHANNEL>`, `<PROD_ALERTS_CHANNEL>` | Bug and alert channels |
 | `<GRAFANA_URL>` | Grafana Cloud stack |
 | `<GRAFANA_PROM_UID>`, `<GRAFANA_LOGS_UID>`, `<GRAFANA_TRACES_UID>` | Prod datasource UIDs (`-stg` / `-dev` suffixes for other envs) |
+| `<TEAM_SYNC_MEETING>` | Weekly team engineering sync |
 | `<DASHBOARD_UID>` | App metrics dashboard UID |
 | `<MAC_MACHINE_ID>` | My laptop's Grok Bot machine ID |
 | `<WORK_DIR>` | Directory on my laptop holding work repos |
 | `<TOKEN_ENV_VAR>` | Env var with the work GitHub token |
 | `<PERSONAL_TOKEN_ENV_VAR>` | Env var with the personal GitHub token |
-| `<COWORKER_NAME_1>`, `<COWORKER_NAME_2>` | Coworkers |
-| `<FEATURE_A>`, `<FEATURE_B>`, `<ENTITY>`, `<PR_NUMBER>` | Example values in the standup and reviewer samples |
+| `<FEATURE_A>`, `<FEATURE_B>`, `<ENTITY>`, `<PR_NUMBER>` | Example values in the chief-of-staff standup and reviewer samples |
 
 PR numbers in examples are made up.
