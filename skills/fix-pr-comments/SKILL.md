@@ -7,7 +7,7 @@ description: >-
   pastes a teammate/bot review thread. Read every human and bot comment. Always
   fix easy nits and easy test gaps. Do not defer small work. New follow-up
   commit (no amend), scoped Make, no CI polling. Do not use for posting a
-  review (pr-comment-review) or for new feature work.
+  review (/code-review) or for new feature work.
 ---
 
 # Fix PR comments
@@ -16,11 +16,11 @@ Bugra is the author. Check **every** review. Teammates and bots count the same. 
 
 ## Anti-triggers
 
-- Posting a review (he is the reviewer): `pr-comment-review`.
-- Self-review of his own PR to find new issues: `pr-comment-review`.
+- Posting a review (he is the reviewer): `/code-review`.
+- Self-review of his own PR to find new issues: `/code-review`.
 - New feature work unrelated to the thread: `development` / `implement-feature`.
 
-"Check review on PR N" / "check PR comments" is this skill, not `pr-comment-review`.
+"Check review on PR N" / "check PR comments" is this skill, not `/code-review`.
 
 ## Defaults (do not ask)
 

@@ -6,7 +6,7 @@ description: >-
   I say", or pastes a thread and wants an answer. Always wrap the draft in a
   markdown fence. Slack is chat-typed, not email. No em dashes. Speak as if the
   other person is more senior. Do not use for how the agent talks to Bugra, for
-  posting a GitHub review (pr-comment-review), or for fixing review comments
+  posting a GitHub review (/code-review), or for fixing review comments
   (fix-pr-comments).
 ---
 
@@ -34,7 +34,7 @@ I think this might be the bug. Can you check?
 ## Anti-triggers
 
 - Talking to Bugra in Cursor / Claude / Codex: `adhd-output`. Not this skill.
-- Post a GitHub review as the reviewer: `pr-comment-review`.
+- Post a GitHub review as the reviewer: `/code-review`.
 - He is the author and wants comments fixed: `fix-pr-comments`.
 - PR description body: follow AGENTS.md PR skeleton. Still no em dash. Still simple English.
 

@@ -6,7 +6,7 @@ description: >-
   small-to-medium change. Full-stack unless told otherwise, one reviewable PR,
   no deferred leftovers, scoped Make checks, no Playwright or CI polling unless
   asked. Browser checks use agent-browser. Do not use for big-feature planning (implement-feature), PR review
-  comments (pr-comment-review), or addressing review feedback (fix-pr-comments).
+  comments (/code-review), or addressing review feedback (fix-pr-comments).
 ---
 
 # Development
@@ -17,7 +17,7 @@ For a **new large feature**, also load `implement-feature` (plan mode, then the 
 
 ## Anti-triggers
 
-- Reviewing someone else's PR / posting review comments: `pr-comment-review`.
+- Reviewing someone else's PR / posting review comments: `/code-review`.
 - Addressing teammate or bot review comments on his PR: `fix-pr-comments`.
 - "How do I run the local stack / database / worktree": answer from the repo README.
 - Draft a Slack, email, or GitHub reply he will paste: `message`.

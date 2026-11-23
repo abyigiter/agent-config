@@ -18,7 +18,7 @@ While coding, also follow `development` (`~/.agents/skills/development/SKILL.md`
 ## Anti-triggers
 
 - One-file or obvious bugfix: follow `development`. Do not switch to plan mode.
-- PR review / leave comments: `pr-comment-review`.
+- PR review / leave comments: `/code-review`.
 - "Skip the plan" / "just implement": stay in agent mode. Still follow the other rules.
 
 ## Defaults (do not ask)

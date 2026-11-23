@@ -30,7 +30,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `pi/settings.json` | Pi via OpenRouter. GLM 5.3 Flash Nitro at max thinking by default (plain GLM 5.3 / 5.3 Flash still in the cycle), plus GPT-6.1 Sol / 6 Luna / 6 Astra, Grok 4.7, Claude Sonnet 5.5 / Opus 5.5 / Haiku 5.5, DeepSeek V4 Pro, Kimi K3, Qwen 3.8, Muse Spark 1.3, and Gemini 4 Argon in the model cycle. MCPs stay in a machine-local `~/.pi/agent/mcp.json`, not in the repo. |
 | `pi/models.json` | Custom OpenRouter model defs Pi doesn't ship yet (Claude Haiku 5.5). |
 | `.claude/agents/`, `.claude/commands/` | Claude Code subagents `scout` (Haiku 5.5), `planner` (Fable 5.2 default, `/implement` picks Fable or Opus per task) + `reviewer` (Opus 5.5, high effort), `worker` + `pr-fixer` (Sonnet 5.5; `/implement` runs `worker` on Haiku at max effort), and the same three chain commands. See [Claude subagents](#claude-subagents). |
-| `pi/agents/`, `pi/prompts/` | Subagents via the [`pi-subagents`](https://github.com/nicobailon/pi-subagents) package. Builtin `scout` / `reviewer` / `worker` get model overrides in `pi/settings.json` (`subagents.agentOverrides`); custom `planner` (Gemini 4 Argon, high) and `pr-fixer` (Claude Sonnet 5.5, high) live in `pi/agents/`. Non-Claude on purpose, except `pr-fixer`, so PR fixes behave the same in pi and Claude Code. Chains: `/implement`, `/scout-and-plan`, `/implement-and-review`, `/fix-pr`, `/debug`, `/test-gap`, `/rollout-check`. |
+| `pi/agents/`, `pi/prompts/` | Subagents via the [`pi-subagents`](https://github.com/nicobailon/pi-subagents) package. Builtin `scout` / `reviewer` / `worker` get model overrides in `pi/settings.json` (`subagents.agentOverrides`); custom `planner` (Gemini 4 Argon, high) and `pr-fixer` (Claude Sonnet 5.5, high) live in `pi/agents/`. Non-Claude on purpose, except `pr-fixer`, so PR fixes behave the same in pi and Claude Code. Chains: `/implement`, `/scout-and-plan`, `/implement-and-review`, `/fix-pr`, `/debug`, `/test-gap`, `/rollout-check`, `/code-review` (shells out to `claude`, always `--comment`). |
 | `pi/extensions/*.ts` | Small local Pi extensions, linked into `~/.pi/agent/extensions/`. `fleet-hotkey.ts`: `ctrl+shift+a` opens `/subagents-fleet`. |
 | `pi/themes/` | Soft Catppuccin-Macchiato palette for the Pi TUI (`macchiato`, active by default). |
 
@@ -67,7 +67,6 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | Skill | Use |
 |---|---|
 | `message` | Slack is chat. `yeah` not `Yes`. One markdown fence. |
-| `pr-comment-review` | Post the review. No draft. No stacked counter-PR. |
 | `fix-pr-comments` | Author mode. Every bot nit. No "later". |
 
 **Stolen, on purpose**
@@ -78,7 +77,6 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `web-design-guidelines` | UI/a11y review |
 | `performance` | Core Web Vitals |
 | `agent-browser` | Browser CLI. Prefer over Playwright |
-| `thermo-nuclear-code-quality-review` | Extremely strict maintainability bar for the review-pr workflow |
 
 ## Local overlay
 
@@ -244,7 +242,7 @@ Chains:
 /implement add input validation to the signup handler      # scout -> planner -> worker
 /scout-and-plan migrate auth to OAuth                       # scout -> planner, no edits
 /implement-and-review add retry to the webhook client      # worker -> reviewer -> worker
-/review-pr 42                                              # scout -> reviewer; your PR: markdown only, peer PR: posts review
+/code-review high 42                                       # Claude built-in review via claude CLI; always posts inline comments
 /fix-pr-reviews 42 commit                                  # scout -> planner -> worker; replies on disagree threads, commit/push only if asked
 /fix-pr 42 handle nil wallet in transfer push              # pr-fixer edits, main session commits; push only if asked
 ```
@@ -267,7 +265,7 @@ Notes:
 
 - Each subagent is a separate `pi` process with a fresh context. Write tasks for someone who hasn't read the conversation.
 - `pi-subagents` loads a repo's `.pi/agents/` by default (`agentScope: "both"`), and project agents win name collisions. Only run it in repos you trust.
-- To change a builtin's model, edit `subagents.agentOverrides` in `pi/settings.json`. Don't copy a builtin into `pi/agents/`, because a same-name file replaces the bundled definition wholesale. Exception: the `/review-pr` workflow pins its reviewer to `openrouter/openai/gpt-6.1-sol` per-run in `pi/prompts/review-pr.md`, so PR review stays on GPT-6.1 Sol even if the override changes.
+- To change a builtin's model, edit `subagents.agentOverrides` in `pi/settings.json`. Don't copy a builtin into `pi/agents/`, because a same-name file replaces the bundled definition wholesale.
 - The chain prompts embed a `js workflow` script (the `pi-subagents` workflow API). The legacy `chain` parameter is no longer supported.
 
 ## Claude subagents
@@ -286,7 +284,7 @@ The same five roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent
 /scout-and-plan migrate auth to OAuth                     # scout -> planner, no edits
 /implement add input validation to the signup handler    # scout -> planner -> worker
 /implement-and-review add retry to the webhook client    # worker -> reviewer -> worker (fix pass only if needed)
-/review-pr 42                                            # scout -> reviewer; your PR: markdown only, peer PR: posts review
+/code-review high 42                                       # Claude built-in review via claude CLI; always posts inline comments
 /fix-pr-reviews 42 commit                                # scout -> planner -> worker; replies on disagree threads, commit/push only if asked
 /fix-pr 42 handle nil wallet in transfer push            # pr-fixer edits, main session commits; push only if asked
 /debug 502 on POST /transfers after deploy             # scout -> planner (ranked hypotheses) -> worker (check, then fix)
