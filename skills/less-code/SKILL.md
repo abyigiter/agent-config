@@ -6,7 +6,7 @@ description: >-
   shortest working diff after you understand the flow. Inspired by ponytail
   (lazy senior). Do not use for planning (implement-feature, brainstorming),
   design proposals (writing-design-proposals), or review comments
-  (pr-comment-review, fix-pr-comments).
+  (/code-review, fix-pr-comments).
 ---
 
 # Less code

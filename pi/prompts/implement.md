@@ -1,5 +1,5 @@
 ---
-description: Full implementation workflow - scout gathers context, planner creates plan, worker (Grok 4.7 medium) implements
+description: Full implementation workflow - scout gathers context, planner creates plan, worker (Gemini 4 Neon high) implements
 ---
 Task: $@
 
@@ -12,7 +12,7 @@ const TASK = "<task>";
 const DECISIONS = "<decisions>";
 const scout = await runs.run("scout", { agent: "scout", task: "Find all code relevant to: " + TASK });
 const plan = await runs.run("plan", { agent: "planner", task: "Create an implementation plan (with acceptance criteria) for: " + TASK + "\n\nSettled decisions:\n" + DECISIONS + "\n\nScout context:\n" + scout.output });
-return runs.run("implement", { agent: "worker", model: "openrouter/x-ai/grok-4.7:medium", task: "Implement this plan for: " + TASK + "\n\nPlan:\n" + plan.output });
+return runs.run("implement", { agent: "worker", model: "openrouter/google/gemini-4-neon:high", task: "Implement this plan for: " + TASK + "\n\nPlan:\n" + plan.output });
 ```
 
 Return the worker's report.
