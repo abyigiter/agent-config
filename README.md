@@ -27,7 +27,7 @@ Symlinks. Not a framework. If you want a platform, you are already lost.
 | `skills/` | How to code, review, debug, and draft Slack |
 | `cursor/rules/` | Cursor rules. ADHD is always on. Wiki schema is globbed to `wiki/**` and `raw/**`. |
 | `opencode/opencode.json` | OpenCode via OpenRouter. GLM 5.3 default, Fable planner, DeepSeek implementer. All OpenRouter models in the picker. ClickHouse, Bruin, Lightdash, Allium, Figma (desktop), Google Drive MCPs. Slack off. |
-| `pi/settings.json` | Pi via OpenRouter. GLM 5.3 Flash Nitro at max thinking by default (plain GLM 5.3 / 5.3 Flash still in the cycle), plus GPT-6.1 Sol / 6 Luna / 6 Astra, Grok 4.7, Claude Sonnet 5.5 / Opus 5.5 / Haiku 5.5, DeepSeek V4 Pro, Kimi K3, Qwen 3.8, Muse Spark 1.3, and Gemini 4 Argon in the model cycle. MCPs stay in a machine-local `~/.pi/agent/mcp.json`, not in the repo. |
+| `pi/settings.json` | Pi via OpenRouter. GLM 5.3 Flash Nitro at max thinking by default (plain GLM 5.3 / 5.3 Flash still in the cycle), plus GPT-6.1 Sol / 6 Luna / 6 Astra, Grok 4.7, Claude Sonnet 5.5 / Opus 5.5 / Haiku 5.5, DeepSeek V4 Pro, Kimi K3, Qwen 3.8, Muse Spark 1.3, Gemini 4 Argon, and Gemini 4 Neon in the model cycle. MCPs stay in a machine-local `~/.pi/agent/mcp.json`, not in the repo. |
 | `pi/models.json` | Custom OpenRouter model defs Pi doesn't ship yet (Claude Haiku 5.5). |
 | `.claude/agents/`, `.claude/commands/` | Claude Code subagents `scout` (Haiku 5.5), `planner` (Fable 5.2 default, `/implement` picks Fable or Opus per task) + `reviewer` (Opus 5.5, high effort), `worker` + `pr-fixer` (Sonnet 5.5; `/implement` runs `worker` on Haiku at max effort), and the same three chain commands. See [Claude subagents](#claude-subagents). |
 | `pi/agents/`, `pi/prompts/` | Subagents via the [`pi-subagents`](https://github.com/nicobailon/pi-subagents) package. Builtin `scout` / `reviewer` / `worker` get model overrides in `pi/settings.json` (`subagents.agentOverrides`); custom `planner` (Gemini 4 Argon, high) and `pr-fixer` (Claude Sonnet 5.5, high) live in `pi/agents/`. Non-Claude on purpose, except `pr-fixer`, so PR fixes behave the same in pi and Claude Code. Chains: `/implement`, `/scout-and-plan`, `/implement-and-review`, `/fix-pr`, `/debug`, `/test-gap`, `/rollout-check`, `/code-review` (shells out to `claude`, always `--comment`). |
@@ -135,7 +135,7 @@ flowchart LR
 
 Before the planner, the session classifies the task. Clear goal, scope, and done-criteria: it prints `Classifier: ready` and moves on. Thin: it runs the `grilling` skill on the open decisions only. The planner always writes acceptance criteria, and the reviewer sees only the task and those criteria, never the worker's output.
 
-Claude Code differs: the session picks the `planner` model per task (Fable for large or ambiguous work, Opus for small or scoped work), `worker` is Grok 4.7 at medium effort, run through the Pi CLI (`pi -p`) since the Agent tool can't pick Grok; Pi's `/implement` pins the same model on the worker run, and a final fast review runs: `reviewer` (Opus 5.5, medium) reads the diff and reports. It does not apply fixes.
+Claude Code differs: the session picks the `planner` model per task (Fable for large or ambiguous work, Opus for small or scoped work), `worker` is Gemini 4 Neon at high effort, run through the Pi CLI (`pi -p`) since the Agent tool can't pick Gemini; Pi's `/implement` pins the same model on the worker run, and a final fast review runs: `reviewer` (Opus 5.5, medium) reads the diff and reports. It does not apply fixes.
 
 Sources: [Claude Code](.claude/commands/implement.md) · [Pi](pi/prompts/implement.md)
 
@@ -277,7 +277,7 @@ The same five roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent
 | `scout` | Haiku 5.5 | Read, Grep, Glob, Bash (read-only) |
 | `planner` | Fable 5.2, `effort: medium` (`/implement` overrides with Fable or Opus per task) | Read, Grep, Glob |
 | `reviewer` | Opus 5.5, `effort: high` | Read, Grep, Glob, Bash (read-only) |
-| `worker` | Sonnet 5.5 (`/implement` runs Grok 4.7 medium via Pi instead) | all |
+| `worker` | Sonnet 5.5 (`/implement` runs Gemini 4 Neon high via Pi instead) | all |
 | `pr-fixer` | Sonnet 5.5 | Read, Edit, Write, Grep, Glob, Bash |
 
 ```
