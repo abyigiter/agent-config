@@ -284,7 +284,7 @@ The same five roles and chains as Pi, for Claude Code. Chain diagrams: [Subagent
 /scout-and-plan migrate auth to OAuth                     # scout -> planner, no edits
 /implement add input validation to the signup handler    # scout -> planner -> worker
 /implement-and-review add retry to the webhook client    # worker -> reviewer -> worker (fix pass only if needed)
-/code-review high 42                                       # Claude built-in review via claude CLI; always posts inline comments
+/cr high 42                                               # built-in /code-review + --comment (named cr to avoid shadowing it)
 /fix-pr-reviews 42 commit                                # scout -> planner -> worker; replies on disagree threads, commit/push only if asked
 /fix-pr 42 handle nil wallet in transfer push            # pr-fixer edits, main session commits; push only if asked
 /debug 502 on POST /transfers after deploy             # scout -> planner (ranked hypotheses) -> worker (check, then fix)
