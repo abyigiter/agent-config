@@ -4,7 +4,7 @@ description: Claude's built-in /code-review via the claude CLI, always posting i
 Run this command exactly once and print its output unchanged. Do nothing else.
 
 ```bash
-claude -p "/code-review $@ --comment"
+claude -p "/cr $@"
 ```
 
-`--comment` is always added, so findings post as inline comments on the PR. Give it a PR number or URL.
+`/cr` always adds `--comment` and writes a structured review body, so findings post as inline comments on the PR. Give it a PR number or URL.
